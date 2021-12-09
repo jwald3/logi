@@ -97,52 +97,5 @@ public class ViewSingleFacilityController implements Initializable {
         }
     }
 
-    public void onAddNewTruckMenuItemClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/logi/add-truck.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void onAddNewFacilityMenuItemClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/logi/add-facility.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void onAddNewTripMenuItemClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/logi/add-trip.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void onViewTrucksMenuItemClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/logi/view-trucks.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void onViewFacilitiesMenuItemClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/logi/view-facilities.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public void onViewTripsMenuItemClick(ActionEvent event) throws IOException {
-        Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/logi/view-trips.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
 
 }

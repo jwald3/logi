@@ -3,15 +3,15 @@
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 
-<MenuBar fx:id="naviMenu" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<MenuBar fx:id="naviMenu" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.NavMenuController">
    <menus>
       <Menu mnemonicParsing="false" text="File">
          <items>
             <Menu mnemonicParsing="false" text="New">
                <items>
-                  <MenuItem fx:id="addNewTruckMenuItemFromAddTrip" mnemonicParsing="false" onAction="#onAddNewTruckMenuItemClick" text="Truck" />
-                  <MenuItem fx:id="addNewFacilityMenuItem" mnemonicParsing="false" onAction="#onAddNewFacilityMenuItemClick" text="Facility" />
-                  <MenuItem fx:id="addNewTripMenuItem" mnemonicParsing="false" onAction="#onAddNewTripMenuItemClick" text="Trip" />
+                  <MenuItem mnemonicParsing="false" onAction="#onAddNewTruckMenuItemClick" text="Truck" />
+                  <MenuItem mnemonicParsing="false" onAction="#onAddNewFacilityMenuItemClick" text="Facility" />
+                  <MenuItem mnemonicParsing="false" onAction="#onAddNewTripMenuItemClick" text="Trip" />
                </items>
             </Menu>
             <MenuItem mnemonicParsing="false" text="Save" />

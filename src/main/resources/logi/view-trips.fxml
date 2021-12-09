@@ -49,35 +49,7 @@
 
 <BorderPane fx:id="rootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.ViewTripController">
     <top>
-        <MenuBar BorderPane.alignment="CENTER">
-            <menus>
-                <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <Menu mnemonicParsing="false" text="New">
-                            <items>
-                                <MenuItem fx:id="addNewTruckMenuItemFromAddTrip" mnemonicParsing="false" onAction="#onAddNewTruckMenuItemClick" text="Truck" />
-                                <MenuItem fx:id="addNewFacilityMenuItem" mnemonicParsing="false" onAction="#onAddNewFacilityMenuItemClick" text="Facility" />
-                                <MenuItem fx:id="addNewTripMenuItem" mnemonicParsing="false" onAction="#onAddNewTripMenuItemClick" text="Trip" />
-                            </items>
-                        </Menu>
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="View">
-                    <items>
-                        <MenuItem mnemonicParsing="false" onAction="#onViewTrucksMenuItemClick" text="Trucks" />
-                        <MenuItem mnemonicParsing="false" onAction="#onViewFacilitiesMenuItemClick" text="Facilities" />
-                        <MenuItem mnemonicParsing="false" onAction="#onViewTripsMenuItemClick" text="Trips" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
+        <fx:include source="navi-menu.fxml" />
     </top>
     <left>
         <Region prefHeight="375.0" prefWidth="42.0" BorderPane.alignment="CENTER" />
