@@ -1,10 +1,16 @@
 package logi.util;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import logi.models.Facility;
 import logi.models.Trip;
+import logi.models.Truck;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class TripConnector implements Connector<Trip>{
@@ -31,6 +37,34 @@ public class TripConnector implements Connector<Trip>{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ObservableList<Trip> getRecords() {
+        ObservableList<Trip> tripsList = FXCollections.observableArrayList();
+        Connection conn = getConnection();
+        String query = "SELECT * FROM trips";
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery(query);
+            Trip trip;
+            while (rs.next()) {
+                trip = new Trip(
+                        new Truck(rs.getString("truckId"), 0),
+                        new Facility(rs.getString("originFacilityId"), ""),
+                        new Facility(rs.getString("destinationFacilityId"), ""),
+                        LocalDate.parse(rs.getString("startDate")),
+                        rs.getString("tripID")
+                );
+                tripsList.add(trip);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tripsList;
     }
 
     @Override

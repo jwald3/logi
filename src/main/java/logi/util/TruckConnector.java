@@ -1,9 +1,12 @@
 package logi.util;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import logi.models.Truck;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -31,6 +34,31 @@ public class TruckConnector implements Connector<Truck> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ObservableList<Truck> getRecords() {
+        ObservableList<Truck> trucksList = FXCollections.observableArrayList();
+        Connection conn = getConnection();
+        String query = "SELECT * FROM trucks";
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery(query);
+            Truck truck;
+            while (rs.next()) {
+                truck = new Truck(
+                        rs.getString("truckID"),
+                        rs.getInt("capacity")
+                );
+                trucksList.add(truck);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return trucksList;
     }
 
     @Override

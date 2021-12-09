@@ -1,9 +1,12 @@
 package logi.util;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import logi.models.Facility;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -31,6 +34,31 @@ public class FacilityConnector implements Connector <Facility> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public ObservableList<Facility> getRecords() {
+        ObservableList<Facility> facilitiesList = FXCollections.observableArrayList();
+        Connection conn = getConnection();
+        String query = "SELECT * FROM facilities";
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery(query);
+            Facility facility;
+            while (rs.next()) {
+                facility = new Facility(
+                        rs.getString("facilityName"),
+                        rs.getString("facilityAddress")
+                );
+                facilitiesList.add(facility);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return facilitiesList;
     }
 
     @Override

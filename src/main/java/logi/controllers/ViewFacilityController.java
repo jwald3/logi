@@ -18,10 +18,6 @@ import logi.util.FacilityConnector;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 public class ViewFacilityController implements Initializable {
@@ -50,48 +46,13 @@ public class ViewFacilityController implements Initializable {
         stage.show();
     }
 
-    public ObservableList<Facility> getFacilitiesList() {
-        ObservableList<Facility> facilitiesList = FXCollections.observableArrayList();
-        Connection conn = getConnection();
-        String query = "SELECT * FROM facilities";
-        Statement st;
-        ResultSet rs;
-
-        try {
-            st = conn.createStatement();
-            rs = st.executeQuery(query);
-            Facility facility;
-            while (rs.next()) {
-                facility = new Facility(
-                        rs.getString("facilityName"),
-                        rs.getString("facilityAddress")
-                );
-                facilitiesList.add(facility);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return facilitiesList;
-    }
-
     public void showFacilities() {
-        ObservableList<Facility> list = getFacilitiesList();
+        ObservableList<Facility> list = facilityConnector.getRecords();
 
         colName.setCellValueFactory(new PropertyValueFactory<Facility, String>("ID"));
         colAddress.setCellValueFactory(new PropertyValueFactory<Facility, String>("address"));
 
         tvFacilities.setItems(list);
-    }
-
-    public Connection getConnection() {
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics_planner", "root", "password");
-            return conn;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
     }
 
     @FXML

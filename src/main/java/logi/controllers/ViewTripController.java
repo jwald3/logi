@@ -13,17 +13,11 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import logi.models.Facility;
 import logi.models.Trip;
-import logi.models.Truck;
 import logi.util.TripConnector;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ViewTripController implements Initializable {
@@ -56,35 +50,8 @@ public class ViewTripController implements Initializable {
         stage.show();
     }
 
-    public ObservableList<Trip> getTripsList() {
-        ObservableList<Trip> tripsList = FXCollections.observableArrayList();
-        Connection conn = tripConnector.getConnection();
-        String query = "SELECT * FROM trips";
-        Statement st;
-        ResultSet rs;
-
-        try {
-            st = conn.createStatement();
-            rs = st.executeQuery(query);
-            Trip trip;
-            while (rs.next()) {
-                trip = new Trip(
-                        new Truck(rs.getString("truckId"), 0),
-                        new Facility(rs.getString("originFacilityId"), ""),
-                        new Facility(rs.getString("destinationFacilityId"), ""),
-                        LocalDate.parse(rs.getString("startDate")),
-                        rs.getString("tripID")
-                );
-                tripsList.add(trip);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return tripsList;
-    }
-
     public void showTrips() {
-        ObservableList<Trip> list = getTripsList();
+        ObservableList<Trip> list = tripConnector.getRecords();
 
         colTruck.setCellValueFactory(new PropertyValueFactory<Trip, String>("truck"));
         colOriginFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("originFacility"));

@@ -15,7 +15,9 @@ import javafx.stage.Stage;
 import logi.models.Facility;
 import logi.models.Trip;
 import logi.models.Truck;
+import logi.util.FacilityConnector;
 import logi.util.TripConnector;
+import logi.util.TruckConnector;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,7 +28,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class ViewSingleTripController implements Initializable {
-    
+
     public ChoiceBox<String> truckChoiceBox;
     public ChoiceBox<String> originFacilityChoiceBox;
     public ChoiceBox<String> destinationFacilityChoiceBox;
@@ -44,65 +46,19 @@ public class ViewSingleTripController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tripConnector = new TripConnector();
+        TruckConnector truckConnector = new TruckConnector();
+        FacilityConnector facilityConnector = new FacilityConnector();
 
-        for (Truck truck: getTrucksList()) {
+        for (Truck truck: truckConnector.getRecords()) {
             truckChoiceBox.getItems().add(String.valueOf(truck));
         }
-        for (Facility facility: getFacilitiesList()) {
+        for (Facility facility: facilityConnector.getRecords()) {
             originFacilityChoiceBox.getItems().add(String.valueOf(facility));
         }
 
-        for (Facility facility: getFacilitiesList()) {
+        for (Facility facility: facilityConnector.getRecords()) {
             destinationFacilityChoiceBox.getItems().add(String.valueOf(facility));
         }
-    }
-
-    public ObservableList<Truck> getTrucksList() {
-        ObservableList<Truck> trucksList = FXCollections.observableArrayList();
-        Connection conn = tripConnector.getConnection();
-        String query = "SELECT * FROM trucks";
-        Statement st;
-        ResultSet rs;
-
-        try {
-            st = conn.createStatement();
-            rs = st.executeQuery(query);
-            Truck truck;
-            while (rs.next()) {
-                truck = new Truck(
-                        rs.getString("truckID"),
-                        rs.getInt("capacity")
-                );
-                trucksList.add(truck);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return trucksList;
-    }
-
-    public ObservableList<Facility> getFacilitiesList() {
-        ObservableList<Facility> facilitiesList = FXCollections.observableArrayList();
-        Connection conn = tripConnector.getConnection();
-        String query = "SELECT * FROM facilities";
-        Statement st;
-        ResultSet rs;
-
-        try {
-            st = conn.createStatement();
-            rs = st.executeQuery(query);
-            Facility facility;
-            while (rs.next()) {
-                facility = new Facility(
-                        rs.getString("facilityName"),
-                        rs.getString("facilityAddress")
-                );
-                facilitiesList.add(facility);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return facilitiesList;
     }
 
     private void executeQuery(String query) {
@@ -123,7 +79,7 @@ public class ViewSingleTripController implements Initializable {
                 new Facility(destinationFacilityChoiceBox.getValue(), ""),
                 calendarInput.getValue());
 
-        tripConnector.updateRecord(trip,"");
+        tripConnector.updateRecord(trip,tripID);
     }
 
     @FXML
@@ -163,7 +119,7 @@ public class ViewSingleTripController implements Initializable {
     }
 
     public void setCalendarInput(LocalDate date) {
-       originalStartDateChoiceBox = date;
-       calendarInput.setValue(date);
+        originalStartDateChoiceBox = date;
+        calendarInput.setValue(date);
     }
 }

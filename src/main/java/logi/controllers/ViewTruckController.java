@@ -2,6 +2,7 @@ package logi.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -60,7 +61,7 @@ public class ViewTruckController implements Initializable {
     }
 
     public void showTrucks() {
-        ObservableList<Truck> list = getTrucksList();
+        ObservableList<Truck> list = truckConnector.getRecords();
 
         colTruckID.setCellValueFactory(new PropertyValueFactory<Truck, String>("id"));
         colCapacity.setCellValueFactory(new PropertyValueFactory<Truck, Integer>("capacity"));
@@ -79,41 +80,6 @@ public class ViewTruckController implements Initializable {
         }
     }
 
-    private void executeQuery(String query) {
-        Connection conn = getConnection();
-        Statement st;
-        try {
-            st = conn.createStatement();
-            st.executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public ObservableList<Truck> getTrucksList() {
-        ObservableList<Truck> trucksList = FXCollections.observableArrayList();
-        Connection conn = getConnection();
-        String query = "SELECT * FROM trucks";
-        Statement st;
-        ResultSet rs;
-
-        try {
-            st = conn.createStatement();
-            rs = st.executeQuery(query);
-            Truck truck;
-            while (rs.next()) {
-                truck = new Truck(
-                        rs.getString("truckID"),
-                        rs.getInt("capacity")
-                );
-                trucksList.add(truck);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return trucksList;
-    }
-
     @FXML
     private void clickView (ActionEvent event) throws IOException {
         Stage stage = (Stage) rootID.getScene().getWindow();
@@ -129,4 +95,36 @@ public class ViewTruckController implements Initializable {
         stage.show();
     }
 
+    public ObservableMap<String, Truck> getTrucksMap() {
+        ObservableMap<String, Truck> trucksMap = FXCollections.observableHashMap();
+        Connection conn = getConnection();
+        String query = "SELECT * FROM trucks";
+        Statement st;
+        ResultSet rs;
+
+        try {
+            st = conn.createStatement(); // connect to database
+            rs = st.executeQuery(query);
+            Truck truck;
+            while (rs.next()) {
+                truck = new Truck(
+                        rs.getString("truckID"),
+                        rs.getInt("capacity")
+                );
+                trucksMap.put(truck.getId(), truck);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return trucksMap;
+    }
+
+    public void showMappedTrucks() {
+        ObservableList<Truck> list = truckConnector.getRecords();
+
+        colTruckID.setCellValueFactory(new PropertyValueFactory<Truck, String>("id"));
+        colCapacity.setCellValueFactory(new PropertyValueFactory<Truck, Integer>("capacity"));
+
+        tvTrucks.setItems(list);
+    }
 }
