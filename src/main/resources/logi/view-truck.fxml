@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (c) 2015, 2019, Gluon and/or its affiliates.
+  All rights reserved. Use is subject to license terms.
+
+  This file is available and licensed under the following license:
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions
+  are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in
+    the documentation and/or other materials provided with the distribution.
+  - Neither the name of Oracle Corporation nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane fx:id="viewSingleTruckRootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.ViewSingleTruckController">
+    <top>
+        <MenuBar fx:id="menuBar" BorderPane.alignment="CENTER">
+            <menus>
+                <Menu mnemonicParsing="false" text="File">
+                    <items>
+                        <Menu mnemonicParsing="false" text="New">
+                            <items>
+                                <MenuItem fx:id="addNewTruckMenuItemFromAddTrip" mnemonicParsing="false" onAction="#onAddNewTruckMenuItemClick" text="Truck" />
+                                <MenuItem fx:id="addNewFacilityMenuItem" mnemonicParsing="false" onAction="#onAddNewFacilityMenuItemClick" text="Facility" />
+                                <MenuItem fx:id="addNewTripMenuItem" mnemonicParsing="false" onAction="#onAddNewTripMenuItemClick" text="Trip" />
+                            </items>
+                        </Menu>
+                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="View">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#onViewTrucksMenuItemClick" text="Trucks" />
+                        <MenuItem mnemonicParsing="false" onAction="#onViewFacilitiesMenuItemClick" text="Facilities" />
+                        <MenuItem mnemonicParsing="false" onAction="#onViewTripsMenuItemClick" text="Trips" />
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="About" />
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <center>
+        <VBox prefHeight="375.0" prefWidth="477.0" BorderPane.alignment="CENTER">
+            <children>
+                <HBox prefHeight="49.0" prefWidth="365.0">
+                    <children>
+                        <Label text="Truck">
+                            <HBox.margin>
+                                <Insets top="45.0" />
+                            </HBox.margin>
+                        </Label>
+                  <TextField fx:id="truckIdTextField">
+                     <HBox.margin>
+                        <Insets left="81.0" top="40.0" />
+                     </HBox.margin>
+                  </TextField>
+                    </children>
+                </HBox>
+                <HBox prefHeight="47.0" prefWidth="565.0">
+                    <children>
+                        <Label prefHeight="17.0" prefWidth="46.0" text="Capacity">
+                            <HBox.margin>
+                                <Insets top="10.0" />
+                            </HBox.margin>
+                        </Label>
+                  <TextField fx:id="capacityTextField">
+                     <HBox.margin>
+                        <Insets left="64.0" top="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                    </children>
+                </HBox>
+                <HBox prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <Region prefHeight="100.0" prefWidth="130.0" />
+                        <VBox prefHeight="100.0" prefWidth="119.0">
+                            <children>
+                                <Button fx:id="addTripSubmitButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#updateRecord" prefHeight="25.0" prefWidth="119.0" text="Submit Changes" textAlignment="CENTER" />
+                        <Button mnemonicParsing="false" onAction="#clickDelete" prefHeight="25.0" prefWidth="130.0" text="Delete Truck">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                                <Button mnemonicParsing="false" onAction="#viewTrucks" prefHeight="25.0" prefWidth="167.0" text="Cancel">
+                                    <VBox.margin>
+                                        <Insets top="5.0" />
+                                    </VBox.margin>
+                                </Button>
+                            </children>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+    <left>
+        <Region prefHeight="375.0" prefWidth="35.0" BorderPane.alignment="CENTER" />
+    </left>
+</BorderPane>

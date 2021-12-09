@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+
+<MenuBar fx:id="naviMenu" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <menus>
+      <Menu mnemonicParsing="false" text="File">
+         <items>
+            <Menu mnemonicParsing="false" text="New">
+               <items>
+                  <MenuItem fx:id="addNewTruckMenuItemFromAddTrip" mnemonicParsing="false" onAction="#onAddNewTruckMenuItemClick" text="Truck" />
+                  <MenuItem fx:id="addNewFacilityMenuItem" mnemonicParsing="false" onAction="#onAddNewFacilityMenuItemClick" text="Facility" />
+                  <MenuItem fx:id="addNewTripMenuItem" mnemonicParsing="false" onAction="#onAddNewTripMenuItemClick" text="Trip" />
+               </items>
+            </Menu>
+            <MenuItem mnemonicParsing="false" text="Save" />
+            <MenuItem mnemonicParsing="false" text="Close" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="View">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#onViewTrucksMenuItemClick" text="Trucks" />
+            <MenuItem mnemonicParsing="false" onAction="#onViewFacilitiesMenuItemClick" text="Facilities" />
+            <MenuItem mnemonicParsing="false" onAction="#onViewTripsMenuItemClick" text="Trips" />
+         </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="Help">
+         <items>
+            <MenuItem mnemonicParsing="false" text="About" />
+         </items>
+      </Menu>
+   </menus>
+</MenuBar>
