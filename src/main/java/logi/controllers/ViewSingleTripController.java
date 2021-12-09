@@ -13,16 +13,16 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import logi.models.Facility;
+import logi.models.Trip;
 import logi.models.Truck;
+import logi.util.TripConnector;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ViewSingleTripController implements Initializable {
@@ -39,8 +39,12 @@ public class ViewSingleTripController implements Initializable {
     private LocalDate originalStartDateChoiceBox;
     private String tripID;
 
+    private TripConnector tripConnector;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        tripConnector = new TripConnector();
+
         for (Truck truck: getTrucksList()) {
             truckChoiceBox.getItems().add(String.valueOf(truck));
         }
@@ -55,7 +59,7 @@ public class ViewSingleTripController implements Initializable {
 
     public ObservableList<Truck> getTrucksList() {
         ObservableList<Truck> trucksList = FXCollections.observableArrayList();
-        Connection conn = getConnection();
+        Connection conn = tripConnector.getConnection();
         String query = "SELECT * FROM trucks";
         Statement st;
         ResultSet rs;
@@ -79,7 +83,7 @@ public class ViewSingleTripController implements Initializable {
 
     public ObservableList<Facility> getFacilitiesList() {
         ObservableList<Facility> facilitiesList = FXCollections.observableArrayList();
-        Connection conn = getConnection();
+        Connection conn = tripConnector.getConnection();
         String query = "SELECT * FROM facilities";
         Statement st;
         ResultSet rs;
@@ -101,19 +105,8 @@ public class ViewSingleTripController implements Initializable {
         return facilitiesList;
     }
 
-    public Connection getConnection() {
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics_planner", "root", "password");
-            return conn;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }
-
     private void executeQuery(String query) {
-        Connection conn = getConnection();
+        Connection conn = tripConnector.getConnection();
         Statement st;
         try {
             st = conn.createStatement();
@@ -124,17 +117,13 @@ public class ViewSingleTripController implements Initializable {
     }
 
     public void updateRecord() {
-        ArrayList<String> queries = new ArrayList<>();
+        Trip trip = new Trip(
+                new Truck(truckChoiceBox.getValue(), 0),
+                new Facility(originFacilityChoiceBox.getValue(), ""),
+                new Facility(destinationFacilityChoiceBox.getValue(), ""),
+                calendarInput.getValue());
 
-        queries.add("UPDATE trips " + "SET truckId = '" + truckChoiceBox.getValue() + "' WHERE tripID = " + tripID + ";");
-        queries.add("UPDATE trips " + "SET originFacilityID = '" + originFacilityChoiceBox.getValue() + "' WHERE tripID = " + tripID + ";");
-        queries.add("UPDATE trips " + "SET destinationFacilityID  = '" + destinationFacilityChoiceBox.getValue() + "' WHERE tripID = " + tripID + ";");
-        queries.add("UPDATE trips " + "SET startDate  = '" + calendarInput.getValue() + "' WHERE tripID = " + tripID + ";");
-
-
-        for (String query: queries) {
-            executeQuery(query);
-        }
+        tripConnector.updateRecord(trip,"");
     }
 
     @FXML

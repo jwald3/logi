@@ -60,8 +60,10 @@ public class TripConnector implements Connector<Trip>{
     }
 
     @Override
-    public void deleteRecord(Trip trip, String tripID) {
-        String query = "DELETE FROM trips WHERE tripID = " + tripID + ";";
+    public void deleteRecord(Trip trip, String primaryKey) {
+        String query = "DELETE FROM trips WHERE truckId ='" + trip.getTruck().toString()
+                + "' AND originFacilityID = '" + trip.getOriginFacility().toString()
+                + "' AND destinationFacilityID = '" + trip.getDestinationFacility().toString() + "';";
         executeQuery(query);
     }
 }

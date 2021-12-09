@@ -11,11 +11,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import logi.models.Trip;
 import logi.models.Truck;
+import logi.util.TruckConnector;
 
 import java.io.IOException;
 import java.net.URL;
@@ -33,17 +32,21 @@ public class ViewTruckController implements Initializable {
     @FXML
     public TableColumn<Truck, Integer> colCapacity;
 
+    private TruckConnector truckConnector;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        truckConnector = new TruckConnector();
         showTrucks();
     }
 
     @FXML
     private void clickDelete(ActionEvent event) {
-        Truck selectedItem = tvTrucks.getSelectionModel().getSelectedItem();
-        String query = "DELETE FROM trucks WHERE truckId ='" + selectedItem.getId() + "';";
-        executeQuery(query);
-        showTrucks();
+        if (tvTrucks.getSelectionModel().getSelectedItem() != null) {
+            Truck selectedItem = tvTrucks.getSelectionModel().getSelectedItem();
+            truckConnector.deleteRecord(selectedItem, selectedItem.getId());
+            showTrucks();
+        }
     }
 
     @FXML
@@ -126,13 +129,4 @@ public class ViewTruckController implements Initializable {
         stage.show();
     }
 
-    @FXML
-    private void clickDelete() {
-        if (tvTrucks.getSelectionModel().getSelectedItem() != null) {
-            Truck selectedItem = tvTrucks.getSelectionModel().getSelectedItem();
-            String query = "DELETE FROM trips WHERE truckId ='" + selectedItem.getId() +"';";
-            executeQuery(query);
-            showTrucks();
-        }
-    }
 }

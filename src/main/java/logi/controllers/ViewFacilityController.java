@@ -14,7 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import logi.models.Facility;
-import logi.models.Truck;
+import logi.util.FacilityConnector;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,8 +32,11 @@ public class ViewFacilityController implements Initializable {
     public TableColumn<Facility, String> colName;
     public TableColumn<Facility, String> colAddress;
 
+    private FacilityConnector facilityConnector;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        facilityConnector = new FacilityConnector();
         showFacilities();
     }
 
@@ -93,10 +96,11 @@ public class ViewFacilityController implements Initializable {
 
     @FXML
     private void clickDelete(ActionEvent event) {
-        Facility selectedItem = tvFacilities.getSelectionModel().getSelectedItem();
-        String query = "DELETE FROM facilities WHERE facilityName ='" + selectedItem.getID() + "';";
-        executeQuery(query);
-        showFacilities();
+        if (tvFacilities.getSelectionModel().getSelectedItem() != null) {
+            Facility selectedItem = tvFacilities.getSelectionModel().getSelectedItem();
+            facilityConnector.deleteRecord(selectedItem, selectedItem.getID());
+            showFacilities();
+        }
     }
 
     @FXML
@@ -114,14 +118,4 @@ public class ViewFacilityController implements Initializable {
         stage.show();
     }
 
-    private void executeQuery(String query) {
-        Connection conn = getConnection();
-        Statement st;
-        try {
-            st = conn.createStatement();
-            st.executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

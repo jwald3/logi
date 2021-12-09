@@ -1,6 +1,5 @@
 package logi.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -9,12 +8,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import logi.models.Truck;
+import logi.util.TruckConnector;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import java.util.ResourceBundle;
 
 
@@ -25,15 +23,19 @@ public class AddTruckController implements Initializable {
     public TextField capacityTextField;
     public BorderPane rootID;
 
+    private TruckConnector truckConnector;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        truckConnector = new TruckConnector();
     }
 
     @FXML
     private void submitTruckForm() {
-        insertRecord();
+        Truck truck = new Truck(trailerIdTextField.getText(),
+                Integer.parseInt(capacityTextField.getText()));
+
+        truckConnector.insertRecord(truck);
     }
 
     @FXML
@@ -44,34 +46,5 @@ public class AddTruckController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-    }
-
-    public Connection getConnection() {
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics_planner", "root", "password");
-            return conn;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }
-
-    private void insertRecord() {
-        String query = "INSERT INTO trucks VALUES ('"
-                + trailerIdTextField.getText() + "', "
-                + capacityTextField.getText() + ")";
-        executeQuery(query);
-    }
-
-    private void executeQuery(String query) {
-        Connection conn = getConnection();
-        Statement st;
-        try {
-            st = conn.createStatement();
-            st.executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

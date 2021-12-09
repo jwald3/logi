@@ -17,6 +17,12 @@ public class Trip {
         this.facilityID = facilityID;
     }
 
+    public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDate startDate) {
+        this.truck = truck;
+        this.originFacility = originFacility;
+        this.destinationFacility = destinationFacility;
+        this.startDate = startDate;
+    }
 
     public Truck getTruck() {
         return truck;

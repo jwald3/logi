@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,11 +16,11 @@ import javafx.stage.Stage;
 import logi.models.Facility;
 import logi.models.Trip;
 import logi.models.Truck;
+import logi.util.TripConnector;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
@@ -39,8 +38,11 @@ public class ViewTripController implements Initializable {
     public TableColumn<Trip, String> colDestinationFacility;
     public TableColumn<Trip, String> colStartDate;
 
+    private TripConnector tripConnector;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        tripConnector = new TripConnector();
         showTrips();
     }
 
@@ -54,31 +56,9 @@ public class ViewTripController implements Initializable {
         stage.show();
     }
 
-    public Connection getConnection() {
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics_planner", "root", "password");
-            return conn;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }
-
-    private void executeQuery(String query) {
-        Connection conn = getConnection();
-        Statement st;
-        try {
-            st = conn.createStatement();
-            st.executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public ObservableList<Trip> getTripsList() {
         ObservableList<Trip> tripsList = FXCollections.observableArrayList();
-        Connection conn = getConnection();
+        Connection conn = tripConnector.getConnection();
         String query = "SELECT * FROM trips";
         Statement st;
         ResultSet rs;
@@ -116,13 +96,11 @@ public class ViewTripController implements Initializable {
 
     @FXML
     private void clickDelete(ActionEvent event) {
-
-        Trip selectedItem = tvTrips.getSelectionModel().getSelectedItem();
-        String query = "DELETE FROM trips WHERE truckId ='" + selectedItem.getTruck().toString()
-                + "' AND originFacilityID = '" + selectedItem.getOriginFacility().toString()
-                + "' AND destinationFacilityID = '" + selectedItem.getDestinationFacility().toString() + "';";
-        executeQuery(query);
-        showTrips();
+        if (tvTrips.getSelectionModel().getSelectedItem() != null) {
+            Trip selectedItem = tvTrips.getSelectionModel().getSelectedItem();
+            tripConnector.deleteRecord(selectedItem, "");
+            showTrips();
+        }
     }
 
     @FXML

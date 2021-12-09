@@ -1,6 +1,5 @@
 package logi.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,14 +9,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import logi.models.Facility;
-import logi.models.Truck;
+import logi.util.FacilityConnector;
 
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ViewSingleFacilityController implements Initializable {
@@ -28,10 +25,11 @@ public class ViewSingleFacilityController implements Initializable {
     private String originalFacilityName;
     private String originalFacilityAddress;
 
+    private FacilityConnector facilityConnector;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        facilityConnector = new FacilityConnector();
     }
 
     public void setFacilityNameTextField(Facility facility) {
@@ -56,38 +54,20 @@ public class ViewSingleFacilityController implements Initializable {
 
     @FXML
     public void updateRecord() {
-        ArrayList<String> queries = new ArrayList<>();
+        Facility facility = new Facility(facilityNameTextField.getText(), facilityAddressTextField.getText());
 
-
-        queries.add("UPDATE facilities " + "SET facilityName = '" + facilityNameTextField.getText() + "' WHERE facilityName = '" + originalFacilityName + "';");
-        queries.add("UPDATE facilities " + "SET facilityAddress = '" + facilityAddressTextField.getText() + "' WHERE facilityName = '" + originalFacilityName + "';");
-
-
-        for (String query: queries) {
-            executeQuery(query);
-        }
+        facilityConnector.updateRecord(facility, facility.getID());
     }
 
     @FXML
-    private void clickDelete(ActionEvent event) throws IOException {
+    private void clickDelete() throws IOException {
         String query = "DELETE FROM facilities WHERE facilityName ='" + originalFacilityName + "';";
         executeQuery(query);
         viewFacilities();
     }
 
-    public Connection getConnection() {
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics_planner", "root", "password");
-            return conn;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }
-
     private void executeQuery(String query) {
-        Connection conn = getConnection();
+        Connection conn = facilityConnector.getConnection();
         Statement st;
         try {
             st = conn.createStatement();

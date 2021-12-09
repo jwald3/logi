@@ -3,25 +3,34 @@ package logi.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import logi.models.Truck;
+import logi.util.TruckConnector;
 
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class ViewSingleTruckController {
+public class ViewSingleTruckController implements Initializable {
     @FXML
     public BorderPane viewSingleTruckRootID;
     public TextField truckIdTextField;
     public TextField capacityTextField;
     private String originalTruckID;
+
+    private TruckConnector truckConnector;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        truckConnector = new TruckConnector();
+    }
 
 
     public void setTruckIdTextField(Truck truck) {
@@ -45,31 +54,14 @@ public class ViewSingleTruckController {
     }
 
     public void updateRecord() {
-        ArrayList<String> queries = new ArrayList<>();
+        Truck truck = new Truck(truckIdTextField.getText(),
+                Integer.parseInt(capacityTextField.getText()));
 
-
-        queries.add("UPDATE trucks " + "SET truckID = '" + truckIdTextField.getText() + "' WHERE truckID = '" + originalTruckID + "';");
-        queries.add("UPDATE trucks " + "SET capacity = " + Integer.parseInt(capacityTextField.getText()) + " WHERE truckID = '" + originalTruckID + "';");
-
-
-        for (String query: queries) {
-            executeQuery(query);
-        }
-    }
-
-    public Connection getConnection() {
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics_planner", "root", "password");
-            return conn;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
+        truckConnector.updateRecord(truck, truck.getId());
     }
 
     private void executeQuery(String query) {
-        Connection conn = getConnection();
+        Connection conn = truckConnector.getConnection();
         Statement st;
         try {
             st = conn.createStatement();
@@ -85,4 +77,5 @@ public class ViewSingleTruckController {
         executeQuery(query);
         viewTrucks();
     }
+
 }

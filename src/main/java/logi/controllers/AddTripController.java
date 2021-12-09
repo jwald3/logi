@@ -1,9 +1,7 @@
 package logi.controllers;
 
-import javafx.animation.KeyValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -11,22 +9,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import logi.models.Facility;
 import logi.models.Trip;
-import logi.models.TripsList;
 import logi.models.Truck;
+import logi.util.TripConnector;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ResourceBundle;
 
 public class AddTripController implements Initializable {
@@ -38,8 +30,12 @@ public class AddTripController implements Initializable {
     public ChoiceBox<String> destinationFacilityChoiceBox;
     public DatePicker calendarInput;
 
+    private TripConnector tripConnector;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        tripConnector = new TripConnector();
+
         for (Truck truck: getTrucksList()) {
             truckChoiceBox.getItems().add(String.valueOf(truck));
         }
@@ -58,40 +54,18 @@ public class AddTripController implements Initializable {
     }
 
     private void insertRecord() {
-        String query = "INSERT INTO trips VALUES ('"
-                + truckChoiceBox.getValue() + "', '"
-                + originFacilityChoiceBox.getValue() + "', '"
-                + destinationFacilityChoiceBox.getValue() + "', '"
-                + calendarInput.getValue() + "', tripID = NULL);";
+        Trip trip = new Trip(
+                new Truck(truckChoiceBox.getValue(), 0),
+                new Facility(originFacilityChoiceBox.getValue(), ""),
+                new Facility(destinationFacilityChoiceBox.getValue(), ""),
+                calendarInput.getValue());
 
-        executeQuery(query);
-    }
-
-    public Connection getConnection() {
-        Connection conn;
-        try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/logistics_planner", "root", "password");
-            return conn;
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return null;
-        }
-    }
-
-    private void executeQuery(String query) {
-        Connection conn = getConnection();
-        Statement st;
-        try {
-            st = conn.createStatement();
-            st.executeUpdate(query);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        tripConnector.insertRecord(trip);
     }
 
     public ObservableList<Truck> getTrucksList() {
         ObservableList<Truck> trucksList = FXCollections.observableArrayList();
-        Connection conn = getConnection();
+        Connection conn = tripConnector.getConnection();
         String query = "SELECT * FROM trucks";
         Statement st;
         ResultSet rs;
@@ -115,7 +89,7 @@ public class AddTripController implements Initializable {
 
     public ObservableList<Facility> getFacilitiesList() {
         ObservableList<Facility> facilitiesList = FXCollections.observableArrayList();
-        Connection conn = getConnection();
+        Connection conn = tripConnector.getConnection();
         String query = "SELECT * FROM facilities";
         Statement st;
         ResultSet rs;
