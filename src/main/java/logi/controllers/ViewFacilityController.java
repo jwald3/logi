@@ -67,12 +67,13 @@ public class ViewFacilityController implements Initializable {
     @FXML
     private void clickView (ActionEvent event) throws IOException {
         Stage stage = (Stage) rootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-facility.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/facility-info.fxml"));
         Parent root = loader.load();
 
-        ViewSingleFacilityController controller = loader.getController();
+        FacilityInfoController controller = loader.getController();
         controller.setFacilityNameTextField(tvFacilities.getSelectionModel().getSelectedItem());
         controller.setFacilityAddressTextField(tvFacilities.getSelectionModel().getSelectedItem());
+        controller.showTrips(tvFacilities.getSelectionModel().getSelectedItem());
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

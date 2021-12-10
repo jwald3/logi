@@ -43,7 +43,13 @@ public class TripConnector implements Connector<Trip>{
     public ObservableList<Trip> getRecords() {
         ObservableList<Trip> tripsList = FXCollections.observableArrayList();
         Connection conn = getConnection();
-        String query = "SELECT * FROM trips";
+        String query = "SELECT * FROM (SELECT t1.truckID, t1.capacity, t1.originFacilityID, t1.destinationFacilityID, " +
+        "t1.startDate, t1.originFacilityAddress, facilities.facilityAddress AS destinationFacilityAddress FROM " +
+        "(SELECT trips.truckID, trips.originFacilityID, trips.destinationFacilityID, trips.startDate,trucks.capacity, " +
+        "facilities.facilityName, facilities.facilityAddress AS originFacilityAddress FROM trips INNER JOIN trucks " +
+        "ON trips.truckID = trucks.truckId INNER JOIN facilities ON trips.originFacilityID = facilities.facilityName " +
+        ") AS t1 INNER JOIN facilities ON t1.destinationFacilityID = facilities.facilityName) AS t2";
+        // String query = "SELECT * FROM trips";
         Statement st;
         ResultSet rs;
 
@@ -53,11 +59,14 @@ public class TripConnector implements Connector<Trip>{
             Trip trip;
             while (rs.next()) {
                 trip = new Trip(
-                        new Truck(rs.getString("truckId"), 0),
-                        new Facility(rs.getString("originFacilityId"), ""),
-                        new Facility(rs.getString("destinationFacilityId"), ""),
-                        LocalDate.parse(rs.getString("startDate")),
-                        rs.getString("tripID")
+                        new Truck(rs.getString("t2.truckId"), rs.getInt("t2.capacity")),
+                        new Facility(rs.getString("t2.originFacilityId"),
+                                rs.getString("t2.originFacilityAddress")),
+                        new Facility(rs.getString("t2.destinationFacilityId"),
+                                rs.getString("t2.destinationFacilityAddress")),
+                        LocalDate.parse(rs.getString("t2.startDate")),
+                        // rs.getString("tripID")
+                        ""
                 );
                 tripsList.add(trip);
             }
@@ -65,6 +74,11 @@ public class TripConnector implements Connector<Trip>{
             e.printStackTrace();
         }
         return tripsList;
+    }
+
+    @Override
+    public ObservableList<Trip> getRelatedRecords(Trip trip) {
+        return null;
     }
 
     @Override

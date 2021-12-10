@@ -61,6 +61,7 @@ public class ViewTripController implements Initializable {
         tvTrips.setItems(list);
     }
 
+
     @FXML
     private void clickDelete(ActionEvent event) {
         if (tvTrips.getSelectionModel().getSelectedItem() != null) {
@@ -72,16 +73,21 @@ public class ViewTripController implements Initializable {
 
     @FXML
     private void clickView (ActionEvent event) throws IOException {
+
         Stage stage = (Stage) rootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trip.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/trip-info.fxml"));
         Parent root = loader.load();
 
-        ViewSingleTripController controller = loader.getController();
-        controller.setTruckChoiceBox(tvTrips.getSelectionModel().getSelectedItem().getTruck());
-        controller.setOriginFacilityChoiceBox(tvTrips.getSelectionModel().getSelectedItem().getOriginFacility());
-        controller.setDestinationFacilityChoiceBox(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
-        controller.setCalendarInput(tvTrips.getSelectionModel().getSelectedItem().getStartDate());
-        controller.setTripID(tvTrips.getSelectionModel().getSelectedItem().getFacilityID());
+        TripInfoController controller = loader.getController();
+        controller.setTruckIdTextField(tvTrips.getSelectionModel().getSelectedItem().getTruck());
+        controller.setTruckCapacityTextField(tvTrips.getSelectionModel().getSelectedItem().getTruck());
+        controller.setOriginFacilityIDTextField(tvTrips.getSelectionModel().getSelectedItem().getOriginFacility());
+        controller.setOriginFacilityAddressTextField(tvTrips.getSelectionModel().getSelectedItem().getOriginFacility());
+        controller.setDestinationFacilityIDTextField(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
+        controller.setDestinationFacilityAddressTextField(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
+        controller.setStartDateTextField(tvTrips.getSelectionModel().getSelectedItem());
+//        controller.setTripID(tvTrips.getSelectionModel().getSelectedItem().getFacilityID());
+
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

@@ -56,7 +56,7 @@ public class ViewSingleFacilityController implements Initializable {
     public void updateRecord() {
         Facility facility = new Facility(facilityNameTextField.getText(), facilityAddressTextField.getText());
 
-        facilityConnector.updateRecord(facility, facility.getID());
+        facilityConnector.updateRecord(facility, originalFacilityName);
     }
 
     @FXML

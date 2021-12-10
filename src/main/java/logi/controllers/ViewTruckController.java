@@ -83,12 +83,13 @@ public class ViewTruckController implements Initializable {
     @FXML
     private void clickView (ActionEvent event) throws IOException {
         Stage stage = (Stage) rootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-truck.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/truck-info.fxml"));
         Parent root = loader.load();
 
-        ViewSingleTruckController controller = loader.getController();
+        TruckInfoController controller = loader.getController();
         controller.setTruckIdTextField(tvTrucks.getSelectionModel().getSelectedItem());
         controller.setCapacityTextField(tvTrucks.getSelectionModel().getSelectedItem());
+        controller.showTrips(tvTrucks.getSelectionModel().getSelectedItem());
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

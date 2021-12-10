@@ -103,17 +103,17 @@ public class ViewSingleTripController implements Initializable {
         tripID = string;
     }
 
-    public void setTruckChoiceBox(Truck truck) {
+    public void setTruckChoiceBox(String truck) {
         originalTruckChoiceBox = truck.toString();
         truckChoiceBox.setValue(String.valueOf(truck));
     }
 
-    public void setOriginFacilityChoiceBox(Facility facility) {
+    public void setOriginFacilityChoiceBox(String facility) {
         originalOriginFacilityChoiceBox = facility.toString();
         originFacilityChoiceBox.setValue(String.valueOf(facility));
     }
 
-    public void setDestinationFacilityChoiceBox(Facility facility) {
+    public void setDestinationFacilityChoiceBox(String facility) {
         originalDestinationFacilityChoiceBox = String.valueOf(facility);
         destinationFacilityChoiceBox.setValue(String.valueOf(facility));
     }
