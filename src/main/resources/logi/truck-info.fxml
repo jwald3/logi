@@ -15,18 +15,21 @@
             <children>
                 <HBox prefHeight="29.0" prefWidth="565.0">
                     <children>
-                        <HBox prefHeight="29.0" prefWidth="94.0">
-                            <children>
-                                <Label text="Truck">
-                                    <HBox.margin>
-                                        <Insets left="50.0" top="5.0" />
-                                    </HBox.margin>
-                                </Label>
-                            </children>
-                        </HBox>
-                        <TextField fx:id="truckIdTextField" editable="false" />
-                        <Region prefHeight="200.0" prefWidth="200.0" />
-                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#clickEdit" text="Edit Truck" />
+                          <Label prefHeight="17.0" prefWidth="46.0" text="Truck:">
+                              <HBox.margin>
+                                  <Insets left="50.0" top="5.0" />
+                              </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                          </Label>
+                  <Label fx:id="truckIdLabelText" prefHeight="17.0" prefWidth="290.0" text="Truck ID">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                        <Region prefHeight="25.0" prefWidth="61.0" />
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#clickEdit" text="Edit Truck" />
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -39,16 +42,23 @@
                     <children>
                         <HBox prefHeight="29.0" prefWidth="94.0">
                             <children>
-                                <Label text="Capacity">
+                                <Label text="Capacity:">
                                     <HBox.margin>
                                         <Insets left="32.0" top="5.0" />
                                     </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
                                 </Label>
                             </children>
                         </HBox>
-                        <TextField fx:id="capacityTextField" />
-                        <Region prefHeight="200.0" prefWidth="200.0" />
-                        <Button mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="68.0" text="Cancel" />
+                  <Label fx:id="truckCapacityLabelText" prefHeight="17.0" prefWidth="239.0" text="Truck Capacity">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                        <Region prefHeight="25.0" prefWidth="114.0" />
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="68.0" text="Cancel" />
                     </children>
                     <opaqueInsets>
                         <Insets />

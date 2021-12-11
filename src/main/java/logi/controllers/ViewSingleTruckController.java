@@ -1,6 +1,5 @@
 package logi.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -45,19 +44,28 @@ public class ViewSingleTruckController implements Initializable {
 
     @FXML
     private void viewTrucks() throws IOException {
+        Truck newTruck = new Truck(truckIdTextField.getText(), Integer.parseInt(capacityTextField.getText()));
+
         Stage stage = (Stage) viewSingleTruckRootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trucks.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/truck-info.fxml"));
         Parent root = loader.load();
+
+        TruckInfoController controller = loader.getController();
+        controller.setTruckIdLabelText(newTruck);
+        controller.setTruckCapacityLabelText(newTruck);
+        controller.showTrips(newTruck);
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void updateRecord() {
+    public void updateRecord() throws IOException {
         Truck truck = new Truck(truckIdTextField.getText(),
                 Integer.parseInt(capacityTextField.getText()));
 
-        truckConnector.updateRecord(truck, truck.getId());
+        truckConnector.updateRecord(truck, originalTruckID);
+        viewTrucks();
     }
 
     private void executeQuery(String query) {
@@ -72,7 +80,7 @@ public class ViewSingleTruckController implements Initializable {
     }
 
     @FXML
-    private void clickDelete(ActionEvent event) throws IOException {
+    private void clickDelete() throws IOException {
         String query = "DELETE FROM trucks WHERE truckID = '" + originalTruckID + "';";
         executeQuery(query);
         viewTrucks();

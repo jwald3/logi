@@ -7,14 +7,14 @@ public class Trip {
     private Facility originFacility;
     private Facility destinationFacility;
     private LocalDate startDate;
-    private String facilityID;
+    private int tripId;
 
-    public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDate startDate, String facilityID) {
+    public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDate startDate, int tripId) {
         this.truck = truck;
         this.originFacility = originFacility;
         this.destinationFacility = destinationFacility;
         this.startDate = startDate;
-        this.facilityID = facilityID;
+        this.tripId = tripId;
     }
 
     public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDate startDate) {
@@ -40,8 +40,8 @@ public class Trip {
         return startDate;
     }
 
-    public String getFacilityID() {
-        return facilityID;
+    public int getTripId() {
+        return this.tripId;
     }
 
     public String toString() {

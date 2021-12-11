@@ -65,6 +65,30 @@ public class TruckConnector implements Connector<Truck> {
     }
 
     @Override
+    public Truck getRecord(String primaryKey) {
+        Connection conn = getConnection();
+        String query = "SELECT * FROM trucks WHERE truckId = '" + primaryKey + "';";
+        Statement st;
+        ResultSet rs;
+        Truck truck = null;
+
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                truck = new Truck(
+                        rs.getString("truckID"),
+                        rs.getInt("capacity")
+                );
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+
+        }
+        return truck;
+    }
+
+    @Override
     public ObservableList<Trip> getRelatedRecords(Truck truck) {
         ObservableList<Trip> tripsList = FXCollections.observableArrayList();
         Connection conn = getConnection();
@@ -84,7 +108,7 @@ public class TruckConnector implements Connector<Truck> {
                         new Facility(rs.getString("originFacilityId"), ""),
                         new Facility(rs.getString("destinationFacilityId"), ""),
                         LocalDate.parse(rs.getString("startDate")),
-                        rs.getString("tripID")
+                        rs.getInt("tripID")
                 );
                 tripsList.add(trip);
             }
@@ -110,6 +134,7 @@ public class TruckConnector implements Connector<Truck> {
 
         queries.add("UPDATE trucks " + "SET truckID = '" + truck.getId() + "' WHERE truckID = '" + originalTruckID + "';");
         queries.add("UPDATE trucks " + "SET capacity = " + truck.getCapacity() + " WHERE truckID = '" + originalTruckID + "';");
+        queries.add("UPDATE trips SET truckID ='" + truck.getId() + "' WHERE truckID = '" + originalTruckID + "';");
 
 
         for (String query: queries) {
@@ -119,7 +144,12 @@ public class TruckConnector implements Connector<Truck> {
 
     @Override
     public void deleteRecord(Truck truck, String originalTruckID) {
-        String query = "DELETE FROM trucks WHERE truckID = '" + originalTruckID + "';";
-        executeQuery(query);
+        ArrayList<String> queries = new ArrayList<>();
+        queries.add("DELETE FROM trucks WHERE truckID = '" + originalTruckID + "';");
+        queries.add("DELETE FROM trips WHERE truckID = '" +  originalTruckID + "';");
+
+        for (String query: queries) {
+            executeQuery(query);
+        }
     }
 }

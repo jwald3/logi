@@ -44,12 +44,12 @@ public class TripConnector implements Connector<Trip>{
         ObservableList<Trip> tripsList = FXCollections.observableArrayList();
         Connection conn = getConnection();
         String query = "SELECT * FROM (SELECT t1.truckID, t1.capacity, t1.originFacilityID, t1.destinationFacilityID, " +
-        "t1.startDate, t1.originFacilityAddress, facilities.facilityAddress AS destinationFacilityAddress FROM " +
-        "(SELECT trips.truckID, trips.originFacilityID, trips.destinationFacilityID, trips.startDate,trucks.capacity, " +
+        "t1.startDate, t1.originFacilityAddress, t1.tripId, facilities.facilityAddress AS destinationFacilityAddress FROM " +
+        "(SELECT trips.truckID, trips.originFacilityID, trips.destinationFacilityID, trips.tripId, trips.startDate,trucks.capacity, " +
         "facilities.facilityName, facilities.facilityAddress AS originFacilityAddress FROM trips INNER JOIN trucks " +
         "ON trips.truckID = trucks.truckId INNER JOIN facilities ON trips.originFacilityID = facilities.facilityName " +
         ") AS t1 INNER JOIN facilities ON t1.destinationFacilityID = facilities.facilityName) AS t2";
-        // String query = "SELECT * FROM trips";
+
         Statement st;
         ResultSet rs;
 
@@ -65,8 +65,7 @@ public class TripConnector implements Connector<Trip>{
                         new Facility(rs.getString("t2.destinationFacilityId"),
                                 rs.getString("t2.destinationFacilityAddress")),
                         LocalDate.parse(rs.getString("t2.startDate")),
-                        // rs.getString("tripID")
-                        ""
+                        rs.getInt("t2.tripId")
                 );
                 tripsList.add(trip);
             }
@@ -74,6 +73,40 @@ public class TripConnector implements Connector<Trip>{
             e.printStackTrace();
         }
         return tripsList;
+    }
+
+    @Override
+    public Trip getRecord(String primaryKey) {
+        Connection conn = getConnection();
+        String query = "SELECT * FROM (SELECT t1.truckID, t1.capacity, t1.originFacilityID, t1.destinationFacilityID, " +
+                "t1.startDate, t1.originFacilityAddress, t1.tripId, facilities.facilityAddress AS destinationFacilityAddress FROM " +
+                "(SELECT trips.truckID, trips.originFacilityID, trips.destinationFacilityID, trips.tripId, trips.startDate,trucks.capacity, " +
+                "facilities.facilityName, facilities.facilityAddress AS originFacilityAddress FROM trips INNER JOIN trucks " +
+                "ON trips.truckID = trucks.truckId INNER JOIN facilities ON trips.originFacilityID = facilities.facilityName " +
+                ") AS t1 INNER JOIN facilities ON t1.destinationFacilityID = facilities.facilityName) AS t2 WHERE t2.tripId = '" + primaryKey + "';";
+        Statement st;
+        ResultSet rs;
+        Trip trip = null;
+
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                trip = new Trip (
+                        new Truck(rs.getString("t2.truckId"), rs.getInt("t2.capacity")),
+                        new Facility(rs.getString("t2.originFacilityId"),
+                                rs.getString("t2.originFacilityAddress")),
+                        new Facility(rs.getString("t2.destinationFacilityId"),
+                                rs.getString("t2.destinationFacilityAddress")),
+                        LocalDate.parse(rs.getString("t2.startDate")),
+                        rs.getInt("t2.tripId")
+                );
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+
+        }
+        return trip;
     }
 
     @Override

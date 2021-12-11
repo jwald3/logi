@@ -1,6 +1,5 @@
 package logi.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,6 +14,7 @@ import logi.models.Truck;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class TripInfoController implements Initializable {
@@ -26,6 +26,8 @@ public class TripInfoController implements Initializable {
     public TextField destinationFacilityIDTextField;
     public TextField destinationFacilityAddressTextField;
     public TextField startDateTextField;
+
+    public int tripId;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -60,8 +62,12 @@ public class TripInfoController implements Initializable {
         startDateTextField.setText(String.valueOf(trip.getStartDate()));
     }
 
+    public void setTripId(int id) {
+        this.tripId = id;
+    }
+
     @FXML
-    private void clickView (ActionEvent event) throws IOException {
+    private void clickView () throws IOException {
         Stage stage = (Stage) viewSingleTripRootID.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trip.fxml"));
         Parent root = loader.load();
@@ -70,6 +76,8 @@ public class TripInfoController implements Initializable {
         controller.setTruckChoiceBox(truckIdTextField.getText());
         controller.setOriginFacilityChoiceBox(originFacilityIDTextField.getText());
         controller.setDestinationFacilityChoiceBox(destinationFacilityIDTextField.getText());
+        controller.setCalendarInput(LocalDate.parse(startDateTextField.getText()));
+        controller.setTripID(tripId);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

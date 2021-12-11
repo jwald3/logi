@@ -32,10 +32,19 @@ public class AddTruckController implements Initializable {
 
     @FXML
     private void submitTruckForm() {
-        Truck truck = new Truck(trailerIdTextField.getText(),
-                Integer.parseInt(capacityTextField.getText()));
+        if (!trailerIdTextField.getText().isEmpty() && !capacityTextField.getText().isEmpty()) {
+            try {
+                Truck truck = new Truck(trailerIdTextField.getText(),
+                        Integer.parseInt(capacityTextField.getText()));
 
-        truckConnector.insertRecord(truck);
+                truckConnector.insertRecord(truck);
+                trailerIdTextField.setText("");
+                capacityTextField.setText("");
+            } catch (NumberFormatException ignored) {
+
+            }
+
+        }
     }
 
     @FXML

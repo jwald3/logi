@@ -34,10 +34,14 @@ public class AddFacilityController implements Initializable {
     }
 
     private void insertRecord() {
-        Facility facility = new Facility(facilityNameTextField.getText(),
-                facilityAddressTextField.getText());
+        if (!facilityNameTextField.getText().isEmpty() && !facilityAddressTextField.getText().isEmpty()) {
+            Facility facility = new Facility(facilityNameTextField.getText(),
+                    facilityAddressTextField.getText());
 
-        facilityConnector.insertRecord(facility);
+            facilityConnector.insertRecord(facility);
+            facilityNameTextField.setText("");
+            facilityAddressTextField.setText("");
+        }
     }
 
     @FXML

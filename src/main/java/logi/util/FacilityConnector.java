@@ -65,6 +65,30 @@ public class FacilityConnector implements Connector <Facility> {
     }
 
     @Override
+    public Facility getRecord(String primaryKey) {
+        Connection conn = getConnection();
+        String query = "SELECT * FROM facilities WHERE facilityName = '" + primaryKey + "';";
+        Statement st;
+        ResultSet rs;
+        Facility facility = null;
+
+        try {
+            st = conn.createStatement();
+            rs = st.executeQuery(query);
+            while (rs.next()) {
+                facility = new Facility(
+                        rs.getString("facilityName"),
+                        rs.getString("facilityAddress")
+                );
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+
+        }
+        return facility;
+    }
+
+    @Override
     public ObservableList<Trip> getRelatedRecords(Facility facility) {
         ObservableList<Trip> tripsList = FXCollections.observableArrayList();
         Connection conn = getConnection();
@@ -87,7 +111,7 @@ public class FacilityConnector implements Connector <Facility> {
                         new Facility(rs.getString("originFacilityId"), ""),
                         new Facility(rs.getString("destinationFacilityId"), ""),
                         LocalDate.parse(rs.getString("startDate")),
-                        rs.getString("tripID")
+                        rs.getInt("tripID")
                 );
                 tripsList.add(trip);
             }
@@ -113,7 +137,8 @@ public class FacilityConnector implements Connector <Facility> {
 
         queries.add("UPDATE facilities " + "SET facilityName = '" + facility.getID() + "' WHERE facilityName = '" + primaryKey + "';");
         queries.add("UPDATE facilities " + "SET facilityAddress = '" + facility.getAddress() + "' WHERE facilityName = '" + primaryKey + "';");
-
+        queries.add("UPDATE trips " + "SET originFacilityID = '" + facility.getID() + "' WHERE originFacilityID = '" + primaryKey + "';");
+        queries.add("UPDATE trips " + "SET destinationFacilityID = '" + facility.getID() + "' WHERE destinationFacilityID = '" + primaryKey + "';");
 
         for (String query: queries) {
             executeQuery(query);
@@ -122,6 +147,15 @@ public class FacilityConnector implements Connector <Facility> {
 
     @Override
     public void deleteRecord(Facility facility, String primaryKey) {
+        ArrayList<String> queries = new ArrayList<>();
+
+        queries.add("DELETE FROM facilities WHERE facilityName = '" + primaryKey + "';");
+        queries.add("DELETE FROM trips WHERE originFacilityID = '" + primaryKey + "';");
+        queries.add("DELETE FROM trips WHERE destinationFacilityID = '" +  primaryKey + "';");
+
+        for (String query: queries) {
+            executeQuery(query);
+        }
 
     }
 }

@@ -18,6 +18,7 @@ import logi.util.TruckConnector;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddTripController implements Initializable {
@@ -55,13 +56,24 @@ public class AddTripController implements Initializable {
     }
 
     private void insertRecord() {
-        Trip trip = new Trip(
-                new Truck(truckChoiceBox.getValue(), 0),
-                new Facility(originFacilityChoiceBox.getValue(), ""),
-                new Facility(destinationFacilityChoiceBox.getValue(), ""),
-                calendarInput.getValue());
 
-        tripConnector.insertRecord(trip);
+        if (truckChoiceBox.getValue()!= null
+                && !originFacilityChoiceBox.getValue().isEmpty()
+                && !destinationFacilityChoiceBox.getValue().isEmpty()
+                && calendarInput.getValue() != null
+        ) {
+            Trip trip = new Trip(
+                    new Truck(truckChoiceBox.getValue(), 0),
+                    new Facility(originFacilityChoiceBox.getValue(), ""),
+                    new Facility(destinationFacilityChoiceBox.getValue(), ""),
+                    calendarInput.getValue());
+
+            tripConnector.insertRecord(trip);
+            truckChoiceBox.setValue("");
+            originFacilityChoiceBox.setValue("");
+            destinationFacilityChoiceBox.setValue("");
+            calendarInput.setValue(LocalDate.now());
+        }
     }
 
     @FXML

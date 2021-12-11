@@ -1,15 +1,14 @@
 package logi.controllers;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -31,8 +30,8 @@ public class FacilityInfoController implements Initializable {
     public TableColumn <Trip, String> colDestinationFacility;
     public TableColumn <Trip, String> colStartDate;
 
-    public TextField facilityAddressTextField;
-    public TextField facilityNameTextField;
+    public Label facilityNameLabelValue;
+    public Label facilityAddressLabelValue;
 
     private FacilityConnector facilityConnector;
 
@@ -41,32 +40,33 @@ public class FacilityInfoController implements Initializable {
         facilityConnector = new FacilityConnector();
     }
 
-    public void setFacilityNameTextField(Facility facility) {
-        facilityNameTextField.setText(facility.getID());
+
+    public void setFacilityNameLabelValue(Facility facility) {
+        facilityNameLabelValue.setText(facility.getID());
     }
 
-    public void setFacilityAddressTextField(Facility facility) {
-        facilityAddressTextField.setText(facility.getAddress());
+    public void setFacilityAddressLabelValue(Facility facility) {
+        facilityAddressLabelValue.setText(facility.getAddress());
     }
 
     public void showTrips(Facility facility) {
         ObservableList<Trip> list = facilityConnector.getRelatedRecords(facility);
 
-        colTruck.setCellValueFactory(new PropertyValueFactory<Trip, String>("truck"));
-        colOriginFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("originFacility"));
-        colDestinationFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("destinationFacility"));
-        colStartDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("startDate"));
+        colTruck.setCellValueFactory(new PropertyValueFactory<>("truck"));
+        colOriginFacility.setCellValueFactory(new PropertyValueFactory<>("originFacility"));
+        colDestinationFacility.setCellValueFactory(new PropertyValueFactory<>("destinationFacility"));
+        colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 
         tvTrips.setItems(list);
     }
 
     @FXML
-    private void clickEdit (ActionEvent event) throws IOException {
+    private void clickEdit () throws IOException {
         Stage stage = (Stage) facilityInfoRootID.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-facility.fxml"));
         Parent root = loader.load();
 
-        Facility facility = new Facility(facilityNameTextField.getText(), facilityAddressTextField.getText());
+        Facility facility = new Facility(facilityNameLabelValue.getText(), facilityAddressLabelValue.getText());
 
         ViewSingleFacilityController controller = loader.getController();
         controller.setFacilityNameTextField(facility);

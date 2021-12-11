@@ -12,6 +12,8 @@ public interface Connector<T> {
 
     ObservableList<T> getRecords();
 
+    T getRecord(String primaryKey);
+
     ObservableList<Trip> getRelatedRecords(T object);
 
     void insertRecord(T object);

@@ -1,6 +1,5 @@
 package logi.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -73,24 +72,26 @@ public class ViewTripController implements Initializable {
 
     @FXML
     private void clickView (ActionEvent event) throws IOException {
+        if (tvTrips.getSelectionModel().getSelectedItem() != null) {
+            System.out.println(tvTrips.getSelectionModel().getSelectedItem().getTripId());
 
-        Stage stage = (Stage) rootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/trip-info.fxml"));
-        Parent root = loader.load();
+            Stage stage = (Stage) rootID.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/trip-info.fxml"));
+            Parent root = loader.load();
 
-        TripInfoController controller = loader.getController();
-        controller.setTruckIdTextField(tvTrips.getSelectionModel().getSelectedItem().getTruck());
-        controller.setTruckCapacityTextField(tvTrips.getSelectionModel().getSelectedItem().getTruck());
-        controller.setOriginFacilityIDTextField(tvTrips.getSelectionModel().getSelectedItem().getOriginFacility());
-        controller.setOriginFacilityAddressTextField(tvTrips.getSelectionModel().getSelectedItem().getOriginFacility());
-        controller.setDestinationFacilityIDTextField(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
-        controller.setDestinationFacilityAddressTextField(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
-        controller.setStartDateTextField(tvTrips.getSelectionModel().getSelectedItem());
-//        controller.setTripID(tvTrips.getSelectionModel().getSelectedItem().getFacilityID());
+            TripInfoController controller = loader.getController();
+            controller.setTruckIdTextField(tvTrips.getSelectionModel().getSelectedItem().getTruck());
+            controller.setTruckCapacityTextField(tvTrips.getSelectionModel().getSelectedItem().getTruck());
+            controller.setOriginFacilityIDTextField(tvTrips.getSelectionModel().getSelectedItem().getOriginFacility());
+            controller.setOriginFacilityAddressTextField(tvTrips.getSelectionModel().getSelectedItem().getOriginFacility());
+            controller.setDestinationFacilityIDTextField(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
+            controller.setDestinationFacilityAddressTextField(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
+            controller.setStartDateTextField(tvTrips.getSelectionModel().getSelectedItem());
+            controller.setTripId(tvTrips.getSelectionModel().getSelectedItem().getTripId());
 
-
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
 }

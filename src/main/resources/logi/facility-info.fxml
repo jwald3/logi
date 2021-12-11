@@ -47,18 +47,21 @@
             <children>
                 <HBox prefHeight="29.0" prefWidth="565.0">
                     <children>
-                        <HBox prefHeight="29.0" prefWidth="94.0">
-                            <children>
-                                <Label prefHeight="17.0" prefWidth="78.0" text="Facility Name">
-                                    <HBox.margin>
-                                        <Insets left="10.0" top="5.0" />
-                                    </HBox.margin>
-                                </Label>
-                            </children>
-                        </HBox>
-                        <TextField fx:id="facilityNameTextField" editable="false" />
-                        <Region prefHeight="200.0" prefWidth="200.0" />
-                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#clickEdit" text="Edit Facility" />
+                          <Label prefHeight="17.0" prefWidth="98.0" text="Facility Name:">
+                              <HBox.margin>
+                                  <Insets left="10.0" top="5.0" />
+                              </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                          </Label>
+                  <Label fx:id="facilityNameLabelValue" prefHeight="17.0" prefWidth="167.0" text="Facility Name">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                        <Region prefHeight="25.0" prefWidth="179.0" />
+                        <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#clickEdit" text="Edit Facility" textAlignment="JUSTIFY" />
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -69,18 +72,25 @@
                 </HBox>
                 <HBox prefHeight="29.0" prefWidth="565.0">
                     <children>
-                        <HBox prefHeight="29.0" prefWidth="94.0">
+                        <HBox prefHeight="25.0" prefWidth="107.0">
                             <children>
-                                <Label text="Facility Address">
+                                <Label prefHeight="17.0" prefWidth="98.0" text="Facility Address:">
                                     <HBox.margin>
-                                        <Insets left="3.0" top="5.0" />
+                                        <Insets left="10.0" top="5.0" />
                                     </HBox.margin>
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
                                 </Label>
                             </children>
                         </HBox>
-                        <TextField fx:id="facilityAddressTextField" editable="false" />
-                        <Region prefHeight="200.0" prefWidth="200.0" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="76.0" text="Cancel" />
+                  <Label fx:id="facilityAddressLabelValue" prefHeight="17.0" prefWidth="317.0" text="Facility Address">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Label>
+                        <Region prefHeight="25.0" prefWidth="32.0" />
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="75.0" text="Cancel" />
                     </children>
                     <opaqueInsets>
                         <Insets />

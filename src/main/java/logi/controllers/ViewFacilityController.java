@@ -1,8 +1,6 @@
 package logi.controllers;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -49,14 +47,14 @@ public class ViewFacilityController implements Initializable {
     public void showFacilities() {
         ObservableList<Facility> list = facilityConnector.getRecords();
 
-        colName.setCellValueFactory(new PropertyValueFactory<Facility, String>("ID"));
-        colAddress.setCellValueFactory(new PropertyValueFactory<Facility, String>("address"));
+        colName.setCellValueFactory(new PropertyValueFactory<>("ID"));
+        colAddress.setCellValueFactory(new PropertyValueFactory<>("address"));
 
         tvFacilities.setItems(list);
     }
 
     @FXML
-    private void clickDelete(ActionEvent event) {
+    private void clickDelete() {
         if (tvFacilities.getSelectionModel().getSelectedItem() != null) {
             Facility selectedItem = tvFacilities.getSelectionModel().getSelectedItem();
             facilityConnector.deleteRecord(selectedItem, selectedItem.getID());
@@ -65,19 +63,20 @@ public class ViewFacilityController implements Initializable {
     }
 
     @FXML
-    private void clickView (ActionEvent event) throws IOException {
-        Stage stage = (Stage) rootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/facility-info.fxml"));
-        Parent root = loader.load();
+    private void clickView () throws IOException {
+        if (tvFacilities.getSelectionModel().getSelectedItem() != null) {
+            Stage stage = (Stage) rootID.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/facility-info.fxml"));
+            Parent root = loader.load();
 
-        FacilityInfoController controller = loader.getController();
-        controller.setFacilityNameTextField(tvFacilities.getSelectionModel().getSelectedItem());
-        controller.setFacilityAddressTextField(tvFacilities.getSelectionModel().getSelectedItem());
-        controller.showTrips(tvFacilities.getSelectionModel().getSelectedItem());
+            FacilityInfoController controller = loader.getController();
+            controller.setFacilityNameLabelValue(tvFacilities.getSelectionModel().getSelectedItem());
+            controller.setFacilityAddressLabelValue(tvFacilities.getSelectionModel().getSelectedItem());
+            controller.showTrips(tvFacilities.getSelectionModel().getSelectedItem());
 
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        }
     }
-
 }

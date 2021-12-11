@@ -1,7 +1,5 @@
 package logi.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,7 +20,6 @@ import logi.util.TruckConnector;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -39,15 +36,17 @@ public class ViewSingleTripController implements Initializable {
     private String originalOriginFacilityChoiceBox;
     private String originalDestinationFacilityChoiceBox;
     private LocalDate originalStartDateChoiceBox;
-    private String tripID;
+    private int tripID;
 
     private TripConnector tripConnector;
+    private FacilityConnector facilityConnector;
+    private TruckConnector truckConnector;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         tripConnector = new TripConnector();
-        TruckConnector truckConnector = new TruckConnector();
-        FacilityConnector facilityConnector = new FacilityConnector();
+        truckConnector = new TruckConnector();
+        facilityConnector = new FacilityConnector();
 
         for (Truck truck: truckConnector.getRecords()) {
             truckChoiceBox.getItems().add(String.valueOf(truck));
@@ -72,18 +71,19 @@ public class ViewSingleTripController implements Initializable {
         }
     }
 
-    public void updateRecord() {
+    public void updateRecord() throws IOException {
         Trip trip = new Trip(
                 new Truck(truckChoiceBox.getValue(), 0),
                 new Facility(originFacilityChoiceBox.getValue(), ""),
                 new Facility(destinationFacilityChoiceBox.getValue(), ""),
                 calendarInput.getValue());
 
-        tripConnector.updateRecord(trip,tripID);
+        tripConnector.updateRecord(trip, String.valueOf(tripID));
+        viewTrips();
     }
 
     @FXML
-    private void clickDelete(ActionEvent event) throws IOException {
+    private void clickDelete() throws IOException {
         String query = "DELETE FROM trips WHERE tripID = " + tripID + ";";
         executeQuery(query);
         viewTrips();
@@ -92,15 +92,34 @@ public class ViewSingleTripController implements Initializable {
     @FXML
     private void viewTrips() throws IOException {
         Stage stage = (Stage) viewSingleTripRootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trips.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/trip-info.fxml"));
         Parent root = loader.load();
+
+        Truck truck = truckConnector.getRecord(truckChoiceBox.getValue());
+        Facility originFacility = facilityConnector.getRecord(originFacilityChoiceBox.getValue());
+        Facility destinationFacility = facilityConnector.getRecord(destinationFacilityChoiceBox.getValue());
+
+        Trip trip = new Trip(truck, originFacility, destinationFacility, calendarInput.getValue());
+
+        TripInfoController controller = loader.getController();
+
+        controller.setTruckIdTextField(truck);
+        controller.setTruckCapacityTextField(truck);
+        controller.setOriginFacilityIDTextField(originFacility);
+        controller.setOriginFacilityAddressTextField(originFacility);
+        controller.setDestinationFacilityIDTextField(destinationFacility);
+        controller.setDestinationFacilityAddressTextField(destinationFacility);
+        controller.setStartDateTextField(trip);
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
     }
 
-    public void setTripID(String string) {
-        tripID = string;
+
+    public void setTripID(int id) {
+        tripID = id;
     }
 
     public void setTruckChoiceBox(String truck) {

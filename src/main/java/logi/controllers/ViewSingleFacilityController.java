@@ -44,19 +44,28 @@ public class ViewSingleFacilityController implements Initializable {
 
     @FXML
     private void viewFacilities() throws IOException {
+        Facility newFacility = new Facility(facilityNameTextField.getText(), facilityAddressTextField.getText());
+
         Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-facilities.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/facility-info.fxml"));
         Parent root = loader.load();
+
+        FacilityInfoController controller = loader.getController();
+        controller.setFacilityNameLabelValue(newFacility);
+        controller.setFacilityAddressLabelValue(newFacility);
+        controller.showTrips(newFacility);
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
-    public void updateRecord() {
+    public void updateRecord() throws IOException {
         Facility facility = new Facility(facilityNameTextField.getText(), facilityAddressTextField.getText());
 
         facilityConnector.updateRecord(facility, originalFacilityName);
+        viewFacilities();
     }
 
     @FXML

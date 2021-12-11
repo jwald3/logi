@@ -1,12 +1,12 @@
 package logi.controllers;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -36,6 +36,9 @@ public class TruckInfoController implements Initializable {
     public TableColumn <Trip, String> colOriginFacility;
     public TableColumn <Trip, String> colDestinationFacility;
     public TableColumn <Trip, String> colStartDate;
+    public Label truckIdLabelText;
+    public Label truckCapacityLabelText;
+
 
     private TruckConnector truckConnector;
 
@@ -49,24 +52,24 @@ public class TruckInfoController implements Initializable {
         truckConnector = new TruckConnector();
     }
 
-    public void setTruckIdTextField(Truck truck) {
+    public void setTruckIdLabelText(Truck truck) {
         originalTruckID = truck.getId();
-        truckIdTextField.setText(String.valueOf(truck));
+        truckIdLabelText.setText(String.valueOf(truck));
     }
 
-    public void setCapacityTextField(Truck truck) {
+    public void setTruckCapacityLabelText(Truck truck) {
         int originalCapacity = truck.getCapacity();
-        capacityTextField.setText(String.valueOf(truck.getCapacity()));
+        truckCapacityLabelText.setText(String.valueOf(truck.getCapacity()));
     }
 
     @FXML
-    private void clickEdit (ActionEvent event) throws IOException {
+    private void clickEdit () throws IOException {
         Stage stage = (Stage) truckInfoRootID.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-truck.fxml"));
         Parent root = loader.load();
 
-        Truck truck = new Truck(truckIdTextField.getText(),
-                Integer.parseInt(capacityTextField.getText()));
+        Truck truck = new Truck(truckIdLabelText.getText(),
+                Integer.parseInt(truckCapacityLabelText.getText()));
 
         ViewSingleTruckController controller = loader.getController();
         controller.setTruckIdTextField(truck);
