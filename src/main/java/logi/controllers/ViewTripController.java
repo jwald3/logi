@@ -1,7 +1,6 @@
 package logi.controllers;
 
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -53,18 +52,18 @@ public class ViewTripController implements Initializable {
     public void showTrips() {
         ObservableList<Trip> list = tripConnector.getRecords();
 
-        colTruck.setCellValueFactory(new PropertyValueFactory<Trip, String>("truck"));
-        colOriginFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("originFacility"));
-        colDestinationFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("destinationFacility"));
-        colStartDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("startDate"));
-        colEndDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("endDate"));
+        colTruck.setCellValueFactory(new PropertyValueFactory<>("truck"));
+        colOriginFacility.setCellValueFactory(new PropertyValueFactory<>("originFacility"));
+        colDestinationFacility.setCellValueFactory(new PropertyValueFactory<>("destinationFacility"));
+        colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
         tvTrips.setItems(list);
     }
 
 
     @FXML
-    private void clickDelete(ActionEvent event) {
+    private void clickDelete() {
         if (tvTrips.getSelectionModel().getSelectedItem() != null) {
             Trip selectedItem = tvTrips.getSelectionModel().getSelectedItem();
             tripConnector.deleteRecord(selectedItem, "");

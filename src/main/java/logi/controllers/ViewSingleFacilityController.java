@@ -23,7 +23,6 @@ public class ViewSingleFacilityController implements Initializable {
     public TextField facilityAddressTextField;
 
     private String originalFacilityName;
-    private String originalFacilityAddress;
 
     private FacilityConnector facilityConnector;
 
@@ -38,7 +37,6 @@ public class ViewSingleFacilityController implements Initializable {
     }
 
     public void setFacilityAddressTextField(Facility facility) {
-        originalFacilityAddress = facility.getAddress();
         facilityAddressTextField.setText(facility.getAddress());
     }
 

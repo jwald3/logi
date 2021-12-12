@@ -3,11 +3,11 @@ package logi.models;
 import java.time.LocalDate;
 
 public class Trip {
-    private Truck truck;
-    private Facility originFacility;
-    private Facility destinationFacility;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private final Truck truck;
+    private final Facility originFacility;
+    private final Facility destinationFacility;
+    private final LocalDate startDate;
+    private final LocalDate endDate;
     private int tripId;
 
     public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDate startDate, LocalDate endDate, int tripId) {

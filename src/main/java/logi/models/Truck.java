@@ -1,8 +1,8 @@
 package logi.models;
 
 public class Truck {
-    private String id;
-    private int capacity;
+    private final String id;
+    private final int capacity;
 
     public Truck(String id, int capacity) {
         this.id = id;

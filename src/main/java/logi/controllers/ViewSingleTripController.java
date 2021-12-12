@@ -1,6 +1,5 @@
 package logi.controllers;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,11 +34,6 @@ public class ViewSingleTripController implements Initializable {
     public DatePicker endDateInput;
 
 
-    private String originalTruckChoiceBox;
-    private String originalOriginFacilityChoiceBox;
-    private String originalDestinationFacilityChoiceBox;
-    private LocalDate originalStartDateChoiceBox;
-    private LocalDate originalEndDateChoiceBox;
     private int tripID;
 
     private TripConnector tripConnector;
@@ -131,27 +125,22 @@ public class ViewSingleTripController implements Initializable {
     }
 
     public void setTruckChoiceBox(String truck) {
-        originalTruckChoiceBox = truck.toString();
         truckChoiceBox.setValue(String.valueOf(truck));
     }
 
     public void setOriginFacilityChoiceBox(String facility) {
-        originalOriginFacilityChoiceBox = facility.toString();
         originFacilityChoiceBox.setValue(String.valueOf(facility));
     }
 
     public void setDestinationFacilityChoiceBox(String facility) {
-        originalDestinationFacilityChoiceBox = String.valueOf(facility);
         destinationFacilityChoiceBox.setValue(String.valueOf(facility));
     }
 
     public void setStartDateInput(LocalDate date) {
-        originalStartDateChoiceBox = date;
         startDateInput.setValue(date);
     }
 
     public void setEndDateInput(LocalDate date) {
-        originalEndDateChoiceBox = date;
         endDateInput.setValue(date);
     }
 }

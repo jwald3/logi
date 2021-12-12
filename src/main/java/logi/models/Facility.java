@@ -1,8 +1,8 @@
 package logi.models;
 
 public class Facility {
-    private String ID;
-    private String address;
+    private final String ID;
+    private final String address;
 
     public Facility(String ID, String address) {
         this.ID = ID;

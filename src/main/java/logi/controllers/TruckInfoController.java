@@ -9,7 +9,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -40,9 +39,6 @@ public class TruckInfoController implements Initializable {
     private TruckConnector truckConnector;
 
     public String originalTruckID;
-    private int originalCapacity;
-
-    private Truck truck;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -55,7 +51,6 @@ public class TruckInfoController implements Initializable {
     }
 
     public void setTruckCapacityLabelText(Truck truck) {
-        int originalCapacity = truck.getCapacity();
         truckCapacityLabelText.setText(String.valueOf(truck.getCapacity()));
     }
 
@@ -90,11 +85,11 @@ public class TruckInfoController implements Initializable {
     public void showTrips(Truck truck) {
         ObservableList<Trip> list = truckConnector.getRelatedRecords(truck);
 
-        colTruck.setCellValueFactory(new PropertyValueFactory<Trip, String>("truck"));
-        colOriginFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("originFacility"));
-        colDestinationFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("destinationFacility"));
-        colStartDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("startDate"));
-        colEndDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("endDate"));
+        colTruck.setCellValueFactory(new PropertyValueFactory<>("truck"));
+        colOriginFacility.setCellValueFactory(new PropertyValueFactory<>("originFacility"));
+        colDestinationFacility.setCellValueFactory(new PropertyValueFactory<>("destinationFacility"));
+        colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+        colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
         tvTrips.setItems(list);
     }

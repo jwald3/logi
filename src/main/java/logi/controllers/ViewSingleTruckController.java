@@ -38,7 +38,6 @@ public class ViewSingleTruckController implements Initializable {
     }
 
     public void setCapacityTextField(Truck truck) {
-        int originalCapacity = truck.getCapacity();
         capacityTextField.setText(String.valueOf(truck.getCapacity()));
     }
 

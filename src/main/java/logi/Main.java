@@ -6,10 +6,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 public class Main extends Application {
 
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("add-truck.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("add-truck.fxml")));
         primaryStage.setTitle("Logistics Manager");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
