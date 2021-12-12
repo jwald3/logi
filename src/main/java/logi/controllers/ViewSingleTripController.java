@@ -29,13 +29,17 @@ public class ViewSingleTripController implements Initializable {
     public ChoiceBox<String> truckChoiceBox;
     public ChoiceBox<String> originFacilityChoiceBox;
     public ChoiceBox<String> destinationFacilityChoiceBox;
-    public DatePicker calendarInput;
+
     public BorderPane viewSingleTripRootID;
+    public DatePicker startDateInput;
+    public DatePicker endDateInput;
+
 
     private String originalTruckChoiceBox;
     private String originalOriginFacilityChoiceBox;
     private String originalDestinationFacilityChoiceBox;
     private LocalDate originalStartDateChoiceBox;
+    private LocalDate originalEndDateChoiceBox;
     private int tripID;
 
     private TripConnector tripConnector;
@@ -76,7 +80,8 @@ public class ViewSingleTripController implements Initializable {
                 new Truck(truckChoiceBox.getValue(), 0),
                 new Facility(originFacilityChoiceBox.getValue(), ""),
                 new Facility(destinationFacilityChoiceBox.getValue(), ""),
-                calendarInput.getValue());
+                startDateInput.getValue(),
+                endDateInput.getValue());
 
         tripConnector.updateRecord(trip, String.valueOf(tripID));
         viewTrips();
@@ -99,7 +104,9 @@ public class ViewSingleTripController implements Initializable {
         Facility originFacility = facilityConnector.getRecord(originFacilityChoiceBox.getValue());
         Facility destinationFacility = facilityConnector.getRecord(destinationFacilityChoiceBox.getValue());
 
-        Trip trip = new Trip(truck, originFacility, destinationFacility, calendarInput.getValue());
+        Trip trip = new Trip(
+                truck, originFacility, destinationFacility, startDateInput.getValue(), endDateInput.getValue()
+        );
 
         TripInfoController controller = loader.getController();
 
@@ -110,6 +117,7 @@ public class ViewSingleTripController implements Initializable {
         controller.setDestinationFacilityIDTextField(destinationFacility);
         controller.setDestinationFacilityAddressTextField(destinationFacility);
         controller.setStartDateTextField(trip);
+        controller.setEndDateTextField(trip);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -137,8 +145,13 @@ public class ViewSingleTripController implements Initializable {
         destinationFacilityChoiceBox.setValue(String.valueOf(facility));
     }
 
-    public void setCalendarInput(LocalDate date) {
+    public void setStartDateInput(LocalDate date) {
         originalStartDateChoiceBox = date;
-        calendarInput.setValue(date);
+        startDateInput.setValue(date);
+    }
+
+    public void setEndDateInput(LocalDate date) {
+        originalEndDateChoiceBox = date;
+        endDateInput.setValue(date);
     }
 }

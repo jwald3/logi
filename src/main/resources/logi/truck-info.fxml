@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="truckInfoRootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.TruckInfoController">
+<BorderPane fx:id="truckInfoRootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="702.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.TruckInfoController">
     <top>
         <fx:include source="navi-menu.fxml" />
     </top>
@@ -81,12 +86,13 @@
                         <Region prefHeight="29.0" prefWidth="214.0" />
                     </children>
                 </HBox>
-            <TableView fx:id="tvTrips" prefHeight="236.0" prefWidth="494.0">
+            <TableView fx:id="tvTrips" maxWidth="600.0" minWidth="600.0" prefHeight="208.0" prefWidth="600.0">
                <columns>
-                  <TableColumn fx:id="colTruck" prefWidth="147.0" text="Truck" />
-                  <TableColumn fx:id="colOriginFacility" prefWidth="109.0" text="Origin Facility" />
-                  <TableColumn fx:id="colDestinationFacility" prefWidth="127.0" text="Destination Facility" />
-                  <TableColumn fx:id="colStartDate" prefWidth="106.0" text="Start Date" />
+                  <TableColumn fx:id="colTruck" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Truck" />
+                  <TableColumn fx:id="colOriginFacility" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Origin Facility" />
+                  <TableColumn fx:id="colDestinationFacility" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Destination Facility" />
+                  <TableColumn fx:id="colStartDate" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Start Date" />
+                  <TableColumn fx:id="colEndDate" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="End Date" />
                </columns>
                <VBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />

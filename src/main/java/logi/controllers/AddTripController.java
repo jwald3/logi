@@ -28,7 +28,9 @@ public class AddTripController implements Initializable {
     public ChoiceBox<String> truckChoiceBox;
     public ChoiceBox<String> originFacilityChoiceBox;
     public ChoiceBox<String> destinationFacilityChoiceBox;
-    public DatePicker calendarInput;
+
+    public DatePicker startDateDatePicker;
+    public DatePicker endDateDatePicker;
 
     private TripConnector tripConnector;
 
@@ -60,19 +62,24 @@ public class AddTripController implements Initializable {
         if (truckChoiceBox.getValue()!= null
                 && !originFacilityChoiceBox.getValue().isEmpty()
                 && !destinationFacilityChoiceBox.getValue().isEmpty()
-                && calendarInput.getValue() != null
+                && startDateDatePicker.getValue() != null
+                && endDateDatePicker.getValue() != null
+
         ) {
             Trip trip = new Trip(
                     new Truck(truckChoiceBox.getValue(), 0),
                     new Facility(originFacilityChoiceBox.getValue(), ""),
                     new Facility(destinationFacilityChoiceBox.getValue(), ""),
-                    calendarInput.getValue());
+                    startDateDatePicker.getValue(),
+                    endDateDatePicker.getValue()
+                    );
 
             tripConnector.insertRecord(trip);
             truckChoiceBox.setValue("");
             originFacilityChoiceBox.setValue("");
             destinationFacilityChoiceBox.setValue("");
-            calendarInput.setValue(LocalDate.now());
+            startDateDatePicker.setValue(LocalDate.now());
+            endDateDatePicker.setValue(LocalDate.now());
         }
     }
 

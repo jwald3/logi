@@ -25,10 +25,6 @@ public class TruckInfoController implements Initializable {
 
     @FXML
     public BorderPane truckInfoRootID;
-    @FXML
-    public TextField truckIdTextField;
-    @FXML
-    public TextField capacityTextField;
 
     @FXML
     public TableView <Trip>  tvTrips;
@@ -36,6 +32,7 @@ public class TruckInfoController implements Initializable {
     public TableColumn <Trip, String> colOriginFacility;
     public TableColumn <Trip, String> colDestinationFacility;
     public TableColumn <Trip, String> colStartDate;
+    public TableColumn <Trip, String> colEndDate;
     public Label truckIdLabelText;
     public Label truckCapacityLabelText;
 
@@ -97,6 +94,7 @@ public class TruckInfoController implements Initializable {
         colOriginFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("originFacility"));
         colDestinationFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("destinationFacility"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("startDate"));
+        colEndDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("endDate"));
 
         tvTrips.setItems(list);
     }

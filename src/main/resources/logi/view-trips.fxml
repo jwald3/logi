@@ -32,22 +32,16 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.ViewTripController">
+<BorderPane fx:id="rootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="1006.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.ViewTripController">
     <top>
         <fx:include source="navi-menu.fxml" />
     </top>
@@ -76,16 +70,20 @@
         </VBox>
     </right>
    <center>
-      <TableView fx:id="tvTrips" prefHeight="315.0" prefWidth="410.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tvTrips" editable="true" maxWidth="675.0" minWidth="675.0" prefHeight="315.0" prefWidth="675.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="colTruck" prefWidth="93.0" text="Truck" />
-          <TableColumn fx:id="colOriginFacility" prefWidth="97.0" text="Origin Facility" />
-            <TableColumn fx:id="colDestinationFacility" prefWidth="124.0" text="Destination Facility" />
-            <TableColumn fx:id="colStartDate" prefWidth="102.0" text="Start Date" />
+          <TableColumn fx:id="colTruck" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" resizable="false" text="Truck" />
+          <TableColumn fx:id="colOriginFacility" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Origin Facility" />
+            <TableColumn fx:id="colDestinationFacility" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Destination Facility" />
+            <TableColumn fx:id="colStartDate" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Start Date" />
+            <TableColumn fx:id="colEndDate" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="End Date" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="40.0" top="20.0" />
          </BorderPane.margin>
+         <effect>
+            <DropShadow />
+         </effect>
       </TableView>
    </center>
 </BorderPane>

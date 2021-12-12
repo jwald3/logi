@@ -108,6 +108,7 @@ public class TruckConnector implements Connector<Truck> {
                         new Facility(rs.getString("originFacilityId"), ""),
                         new Facility(rs.getString("destinationFacilityId"), ""),
                         LocalDate.parse(rs.getString("startDate")),
+                        LocalDate.parse(rs.getString("endDate")),
                         rs.getInt("tripID")
                 );
                 tripsList.add(trip);

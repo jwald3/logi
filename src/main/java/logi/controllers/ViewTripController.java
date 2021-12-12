@@ -30,6 +30,7 @@ public class ViewTripController implements Initializable {
     public TableColumn<Trip, String> colOriginFacility;
     public TableColumn<Trip, String> colDestinationFacility;
     public TableColumn<Trip, String> colStartDate;
+    public TableColumn<Trip, String> colEndDate;
 
     private TripConnector tripConnector;
 
@@ -56,6 +57,7 @@ public class ViewTripController implements Initializable {
         colOriginFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("originFacility"));
         colDestinationFacility.setCellValueFactory(new PropertyValueFactory<Trip, String>("destinationFacility"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("startDate"));
+        colEndDate.setCellValueFactory(new PropertyValueFactory<Trip, String>("endDate"));
 
         tvTrips.setItems(list);
     }
@@ -71,7 +73,7 @@ public class ViewTripController implements Initializable {
     }
 
     @FXML
-    private void clickView (ActionEvent event) throws IOException {
+    private void clickView () throws IOException {
         if (tvTrips.getSelectionModel().getSelectedItem() != null) {
             System.out.println(tvTrips.getSelectionModel().getSelectedItem().getTripId());
 
@@ -87,6 +89,7 @@ public class ViewTripController implements Initializable {
             controller.setDestinationFacilityIDTextField(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
             controller.setDestinationFacilityAddressTextField(tvTrips.getSelectionModel().getSelectedItem().getDestinationFacility());
             controller.setStartDateTextField(tvTrips.getSelectionModel().getSelectedItem());
+            controller.setEndDateTextField(tvTrips.getSelectionModel().getSelectedItem());
             controller.setTripId(tvTrips.getSelectionModel().getSelectedItem().getTripId());
 
             Scene scene = new Scene(root);

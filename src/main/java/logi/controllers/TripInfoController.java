@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -19,15 +20,20 @@ import java.util.ResourceBundle;
 
 public class TripInfoController implements Initializable {
     public BorderPane viewSingleTripRootID;
-    public TextField truckIdTextField;
-    public TextField truckCapacityTextField;
-    public TextField originFacilityIDTextField;
-    public TextField originFacilityAddressTextField;
-    public TextField destinationFacilityIDTextField;
-    public TextField destinationFacilityAddressTextField;
-    public TextField startDateTextField;
+
+    public Label truckNameLabelText;
+    public Label truckCapacityLabelText;
+    public Label originFacilityNameText;
+    public Label originFacilityAddressLabelText;
+    public Label destinationFacilityNameLabelText;
+    public Label destinationFacilityAddressLabelText;
+    public Label startDateLabelText;
+    public Label endDateLabelText;
+
 
     public int tripId;
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -35,31 +41,35 @@ public class TripInfoController implements Initializable {
     }
 
     public void setTruckIdTextField(Truck truck) {
-        truckIdTextField.setText(truck.getId());
+        truckNameLabelText.setText(truck.getId());
     }
 
     public void setTruckCapacityTextField(Truck truck) {
-        truckCapacityTextField.setText(String.valueOf(truck.getCapacity()));
+        truckCapacityLabelText.setText(String.valueOf(truck.getCapacity()));
     }
 
     public void setOriginFacilityIDTextField(Facility facility) {
-        originFacilityIDTextField.setText(facility.getID());
+        originFacilityNameText.setText(facility.getID());
     }
 
     public void setOriginFacilityAddressTextField(Facility facility) {
-        originFacilityAddressTextField.setText(facility.getAddress());
+        originFacilityAddressLabelText.setText(facility.getAddress());
     }
 
     public void setDestinationFacilityIDTextField(Facility facility) {
-        destinationFacilityIDTextField.setText(facility.getID());
+        destinationFacilityNameLabelText.setText(facility.getID());
     }
 
     public void setDestinationFacilityAddressTextField(Facility facility) {
-        destinationFacilityAddressTextField.setText(facility.getAddress());
+        destinationFacilityAddressLabelText.setText(facility.getAddress());
     }
 
     public void setStartDateTextField(Trip trip) {
-        startDateTextField.setText(String.valueOf(trip.getStartDate()));
+        startDateLabelText.setText(String.valueOf(trip.getStartDate()));
+    }
+
+    public void setEndDateTextField(Trip trip) {
+        endDateLabelText.setText(String.valueOf(trip.getEndDate()));
     }
 
     public void setTripId(int id) {
@@ -73,10 +83,11 @@ public class TripInfoController implements Initializable {
         Parent root = loader.load();
 
         ViewSingleTripController controller = loader.getController();
-        controller.setTruckChoiceBox(truckIdTextField.getText());
-        controller.setOriginFacilityChoiceBox(originFacilityIDTextField.getText());
-        controller.setDestinationFacilityChoiceBox(destinationFacilityIDTextField.getText());
-        controller.setCalendarInput(LocalDate.parse(startDateTextField.getText()));
+        controller.setTruckChoiceBox(truckNameLabelText.getText());
+        controller.setOriginFacilityChoiceBox(originFacilityNameText.getText());
+        controller.setDestinationFacilityChoiceBox(destinationFacilityNameLabelText.getText());
+        controller.setStartDateInput(LocalDate.parse(startDateLabelText.getText()));
+        controller.setEndDateInput(LocalDate.parse(endDateLabelText.getText()));
         controller.setTripID(tripId);
 
         Scene scene = new Scene(root);

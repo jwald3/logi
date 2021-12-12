@@ -44,11 +44,12 @@ public class TripConnector implements Connector<Trip>{
         ObservableList<Trip> tripsList = FXCollections.observableArrayList();
         Connection conn = getConnection();
         String query = "SELECT * FROM (SELECT t1.truckID, t1.capacity, t1.originFacilityID, t1.destinationFacilityID, " +
-        "t1.startDate, t1.originFacilityAddress, t1.tripId, facilities.facilityAddress AS destinationFacilityAddress FROM " +
-        "(SELECT trips.truckID, trips.originFacilityID, trips.destinationFacilityID, trips.tripId, trips.startDate,trucks.capacity, " +
-        "facilities.facilityName, facilities.facilityAddress AS originFacilityAddress FROM trips INNER JOIN trucks " +
-        "ON trips.truckID = trucks.truckId INNER JOIN facilities ON trips.originFacilityID = facilities.facilityName " +
-        ") AS t1 INNER JOIN facilities ON t1.destinationFacilityID = facilities.facilityName) AS t2";
+                "t1.startDate, t1.endDate, t1.originFacilityAddress, t1.tripId, facilities.facilityAddress AS destinationFacilityAddress FROM " +
+                "(SELECT trips.truckID, trips.originFacilityID, trips.destinationFacilityID, trips.tripId, trips.startDate, " +
+                "trips.endDate, trucks.capacity, " +
+                "facilities.facilityName, facilities.facilityAddress AS originFacilityAddress FROM trips INNER JOIN trucks " +
+                "ON trips.truckID = trucks.truckId INNER JOIN facilities ON trips.originFacilityID = facilities.facilityName " +
+                ") AS t1 INNER JOIN facilities ON t1.destinationFacilityID = facilities.facilityName) AS t2";
 
         Statement st;
         ResultSet rs;
@@ -65,6 +66,7 @@ public class TripConnector implements Connector<Trip>{
                         new Facility(rs.getString("t2.destinationFacilityId"),
                                 rs.getString("t2.destinationFacilityAddress")),
                         LocalDate.parse(rs.getString("t2.startDate")),
+                        LocalDate.parse(rs.getString("t2.endDate")),
                         rs.getInt("t2.tripId")
                 );
                 tripsList.add(trip);
@@ -79,8 +81,8 @@ public class TripConnector implements Connector<Trip>{
     public Trip getRecord(String primaryKey) {
         Connection conn = getConnection();
         String query = "SELECT * FROM (SELECT t1.truckID, t1.capacity, t1.originFacilityID, t1.destinationFacilityID, " +
-                "t1.startDate, t1.originFacilityAddress, t1.tripId, facilities.facilityAddress AS destinationFacilityAddress FROM " +
-                "(SELECT trips.truckID, trips.originFacilityID, trips.destinationFacilityID, trips.tripId, trips.startDate,trucks.capacity, " +
+                "t1.startDate, t1.endDate, t1.originFacilityAddress, t1.tripId, facilities.facilityAddress AS destinationFacilityAddress FROM " +
+                "(SELECT trips.truckID, trips.originFacilityID, trips.destinationFacilityID, trips.tripId, trips.startDate, trips.endDate, trucks.capacity, " +
                 "facilities.facilityName, facilities.facilityAddress AS originFacilityAddress FROM trips INNER JOIN trucks " +
                 "ON trips.truckID = trucks.truckId INNER JOIN facilities ON trips.originFacilityID = facilities.facilityName " +
                 ") AS t1 INNER JOIN facilities ON t1.destinationFacilityID = facilities.facilityName) AS t2 WHERE t2.tripId = '" + primaryKey + "';";
@@ -99,6 +101,7 @@ public class TripConnector implements Connector<Trip>{
                         new Facility(rs.getString("t2.destinationFacilityId"),
                                 rs.getString("t2.destinationFacilityAddress")),
                         LocalDate.parse(rs.getString("t2.startDate")),
+                        LocalDate.parse(rs.getString("t2.endDate")),
                         rs.getInt("t2.tripId")
                 );
             }
@@ -120,7 +123,8 @@ public class TripConnector implements Connector<Trip>{
                 + trip.getTruck() + "', '"
                 + trip.getOriginFacility() + "', '"
                 + trip.getDestinationFacility() + "', '"
-                + trip.getStartDate() + "', tripID = NULL);";
+                + trip.getStartDate() + "', '"
+                + trip.getEndDate() + "', tripID = NULL);";
 
         executeQuery(query);
     }
@@ -133,7 +137,7 @@ public class TripConnector implements Connector<Trip>{
         queries.add("UPDATE trips " + "SET originFacilityID = '" + trip.getOriginFacility() + "' WHERE tripID = " + tripID + ";");
         queries.add("UPDATE trips " + "SET destinationFacilityID  = '" + trip.getDestinationFacility() + "' WHERE tripID = " + tripID + ";");
         queries.add("UPDATE trips " + "SET startDate  = '" + trip.getStartDate() + "' WHERE tripID = " + tripID + ";");
-
+        queries.add("UPDATE trips " + "SET endDate  = '" + trip.getEndDate() + "' WHERE tripID = " + tripID + ";");
 
         for (String query: queries) {
             executeQuery(query);
