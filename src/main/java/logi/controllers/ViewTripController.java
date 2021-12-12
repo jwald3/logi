@@ -31,12 +31,16 @@ public class ViewTripController implements Initializable {
     public TableColumn<Trip, String> colStartDate;
     public TableColumn<Trip, String> colEndDate;
 
+
+
     private TripConnector tripConnector;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         tripConnector = new TripConnector();
         showTrips();
+
     }
 
     @FXML

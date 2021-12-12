@@ -7,10 +7,10 @@ import logi.models.Trip;
 import logi.models.Truck;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class TripConnector implements Connector<Trip>{
 
@@ -153,17 +153,18 @@ public class TripConnector implements Connector<Trip>{
         executeQuery(query);
     }
 
-    private static LocalDateTime convertDateFormat(Timestamp rs) throws SQLException {
+    private static LocalDateTime convertDateFormat(Timestamp rs) {
         LocalDateTime date = rs.toLocalDateTime();
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
         String formatDateTime = date.format(formatter);
-
 
         LocalDateTime formattedDateTime = LocalDateTime.parse(formatDateTime, formatter);
 
         DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
         return LocalDateTime.parse(formattedDateTime.format(newFormatter), newFormatter);
+
+//        return LocalDateTime.parse(date.format(formatter));
     }
 }

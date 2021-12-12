@@ -75,4 +75,8 @@ public class Trip {
     public void setStringStartDate(String stringStartDate) {
         this.stringStartDate = stringStartDate;
     }
+
+    public String getStringStartDate() {
+        return convertDateFormat(startDate);
+    }
 }
