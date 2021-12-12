@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import logi.models.Facility;
@@ -21,6 +22,8 @@ import java.net.URL;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class ViewSingleTripController implements Initializable {
@@ -32,6 +35,9 @@ public class ViewSingleTripController implements Initializable {
     public BorderPane viewSingleTripRootID;
     public DatePicker startDateInput;
     public DatePicker endDateInput;
+
+    public TextField endTimeTextField;
+    public TextField startTimeTextField;
 
 
     private int tripID;
@@ -70,12 +76,18 @@ public class ViewSingleTripController implements Initializable {
     }
 
     public void updateRecord() throws IOException {
+        LocalTime startLocalTime = LocalTime.parse(startTimeTextField.getText());
+        LocalDateTime startLocalDateTime = LocalDateTime.of(startDateInput.getValue(), startLocalTime);
+
+        LocalTime endLocalTime = LocalTime.parse(endTimeTextField.getText());
+        LocalDateTime endLocalDateTime = LocalDateTime.of(endDateInput.getValue(), endLocalTime);
+
         Trip trip = new Trip(
                 new Truck(truckChoiceBox.getValue(), 0),
                 new Facility(originFacilityChoiceBox.getValue(), ""),
                 new Facility(destinationFacilityChoiceBox.getValue(), ""),
-                startDateInput.getValue(),
-                endDateInput.getValue());
+                startLocalDateTime,
+                endLocalDateTime);
 
         tripConnector.updateRecord(trip, String.valueOf(tripID));
         viewTrips();
@@ -98,8 +110,14 @@ public class ViewSingleTripController implements Initializable {
         Facility originFacility = facilityConnector.getRecord(originFacilityChoiceBox.getValue());
         Facility destinationFacility = facilityConnector.getRecord(destinationFacilityChoiceBox.getValue());
 
+        LocalTime startLocalTime = LocalTime.parse(startTimeTextField.getText());
+        LocalDateTime startLocalDateTime = LocalDateTime.of(startDateInput.getValue(), startLocalTime);
+
+        LocalTime endLocalTime = LocalTime.parse(endTimeTextField.getText());
+        LocalDateTime endLocalDateTime = LocalDateTime.of(endDateInput.getValue(), endLocalTime);
+
         Trip trip = new Trip(
-                truck, originFacility, destinationFacility, startDateInput.getValue(), endDateInput.getValue()
+                truck, originFacility, destinationFacility, startLocalDateTime, endLocalDateTime
         );
 
         TripInfoController controller = loader.getController();

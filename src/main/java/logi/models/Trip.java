@@ -1,31 +1,37 @@
 package logi.models;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Trip {
     private final Truck truck;
     private final Facility originFacility;
     private final Facility destinationFacility;
-    private final LocalDate startDate;
-    private final LocalDate endDate;
+    private final LocalDateTime startDate;
+    private final LocalDateTime endDate;
     private int tripId;
+    public String stringStartDate;
 
-    public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDate startDate, LocalDate endDate, int tripId) {
+
+    public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDateTime startDate, LocalDateTime endDate, int tripId) {
         this.truck = truck;
         this.originFacility = originFacility;
         this.destinationFacility = destinationFacility;
         this.startDate = startDate;
         this.endDate = endDate;
         this.tripId = tripId;
+        setStringStartDate(convertDateFormat(startDate));
     }
 
-    public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDate startDate, LocalDate endDate) {
+    public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDateTime startDate, LocalDateTime endDate) {
         this.truck = truck;
         this.originFacility = originFacility;
         this.destinationFacility = destinationFacility;
         this.startDate = startDate;
         this.endDate = endDate;
+        setStringStartDate(convertDateFormat(startDate));
     }
+
 
     public Truck getTruck() {
         return truck;
@@ -39,11 +45,11 @@ public class Trip {
         return destinationFacility;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public LocalDate getEndDate() { return  endDate; }
+    public LocalDateTime getEndDate() { return endDate; }
 
     public int getTripId() {
         return this.tripId;
@@ -51,5 +57,22 @@ public class Trip {
 
     public String toString() {
         return this.truck.toString() + " (" + this.originFacility + " -> " + this.destinationFacility + ")";
+    }
+
+    private static String convertDateFormat(LocalDateTime localDateTime) {
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = localDateTime.format(formatter);
+
+
+        LocalDateTime formattedDateTime = LocalDateTime.parse(formatDateTime, formatter);
+
+        DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return formattedDateTime.format(newFormatter);
+    }
+
+    public void setStringStartDate(String stringStartDate) {
+        this.stringStartDate = stringStartDate;
     }
 }

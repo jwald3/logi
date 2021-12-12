@@ -6,11 +6,9 @@ import logi.models.Facility;
 import logi.models.Trip;
 import logi.models.Truck;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.time.LocalDate;
+import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class FacilityConnector implements Connector <Facility> {
@@ -110,8 +108,8 @@ public class FacilityConnector implements Connector <Facility> {
                         new Truck(rs.getString("truckId"), 0),
                         new Facility(rs.getString("originFacilityId"), ""),
                         new Facility(rs.getString("destinationFacilityId"), ""),
-                        LocalDate.parse(rs.getString("startDate")),
-                        LocalDate.parse(rs.getString("endDate")),
+                        convertDateFormat(rs.getTimestamp("startDate")),
+                        convertDateFormat(rs.getTimestamp("endDate")),
                         rs.getInt("tripID")
                 );
                 tripsList.add(trip);
@@ -158,5 +156,19 @@ public class FacilityConnector implements Connector <Facility> {
             executeQuery(query);
         }
 
+    }
+
+    private static LocalDateTime convertDateFormat(Timestamp rs) {
+        LocalDateTime date = rs.toLocalDateTime();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = date.format(formatter);
+
+
+        LocalDateTime formattedDateTime = LocalDateTime.parse(formatDateTime, formatter);
+
+        DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return LocalDateTime.parse(formattedDateTime.format(newFormatter), newFormatter);
     }
 }

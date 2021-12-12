@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import logi.models.Facility;
@@ -19,6 +20,8 @@ import logi.util.TruckConnector;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 public class AddTripController implements Initializable {
@@ -31,6 +34,8 @@ public class AddTripController implements Initializable {
 
     public DatePicker startDateDatePicker;
     public DatePicker endDateDatePicker;
+    public TextField startTimeTextField;
+    public TextField endTimeTextField;
 
     private TripConnector tripConnector;
 
@@ -66,12 +71,18 @@ public class AddTripController implements Initializable {
                 && endDateDatePicker.getValue() != null
 
         ) {
+            LocalTime startLocalTime = LocalTime.parse(startTimeTextField.getText());
+            LocalDateTime startLocalDateTime = LocalDateTime.of(startDateDatePicker.getValue(), startLocalTime);
+
+            LocalTime endLocalTime = LocalTime.parse(endTimeTextField.getText());
+            LocalDateTime endLocalDateTime = LocalDateTime.of(endDateDatePicker.getValue(), endLocalTime);
+
             Trip trip = new Trip(
                     new Truck(truckChoiceBox.getValue(), 0),
                     new Facility(originFacilityChoiceBox.getValue(), ""),
                     new Facility(destinationFacilityChoiceBox.getValue(), ""),
-                    startDateDatePicker.getValue(),
-                    endDateDatePicker.getValue()
+                    startLocalDateTime,
+                    endLocalDateTime
                     );
 
             tripConnector.insertRecord(trip);

@@ -6,11 +6,10 @@ import logi.models.Facility;
 import logi.models.Trip;
 import logi.models.Truck;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class TripConnector implements Connector<Trip>{
@@ -59,14 +58,16 @@ public class TripConnector implements Connector<Trip>{
             rs = st.executeQuery(query);
             Trip trip;
             while (rs.next()) {
+                System.out.println(rs.getType());
+
                 trip = new Trip(
                         new Truck(rs.getString("t2.truckId"), rs.getInt("t2.capacity")),
                         new Facility(rs.getString("t2.originFacilityId"),
                                 rs.getString("t2.originFacilityAddress")),
                         new Facility(rs.getString("t2.destinationFacilityId"),
                                 rs.getString("t2.destinationFacilityAddress")),
-                        LocalDate.parse(rs.getString("t2.startDate")),
-                        LocalDate.parse(rs.getString("t2.endDate")),
+                        convertDateFormat(rs.getTimestamp("t2.startDate")),
+                        convertDateFormat(rs.getTimestamp("t2.endDate")),
                         rs.getInt("t2.tripId")
                 );
                 tripsList.add(trip);
@@ -100,8 +101,8 @@ public class TripConnector implements Connector<Trip>{
                                 rs.getString("t2.originFacilityAddress")),
                         new Facility(rs.getString("t2.destinationFacilityId"),
                                 rs.getString("t2.destinationFacilityAddress")),
-                        LocalDate.parse(rs.getString("t2.startDate")),
-                        LocalDate.parse(rs.getString("t2.endDate")),
+                        convertDateFormat(rs.getTimestamp("t2.startDate")),
+                        convertDateFormat(rs.getTimestamp("t2.endDate")),
                         rs.getInt("t2.tripId")
                 );
             }
@@ -150,5 +151,19 @@ public class TripConnector implements Connector<Trip>{
                 + "' AND originFacilityID = '" + trip.getOriginFacility().toString()
                 + "' AND destinationFacilityID = '" + trip.getDestinationFacility().toString() + "';";
         executeQuery(query);
+    }
+
+    private static LocalDateTime convertDateFormat(Timestamp rs) throws SQLException {
+        LocalDateTime date = rs.toLocalDateTime();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String formatDateTime = date.format(formatter);
+
+
+        LocalDateTime formattedDateTime = LocalDateTime.parse(formatDateTime, formatter);
+
+        DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        return LocalDateTime.parse(formattedDateTime.format(newFormatter), newFormatter);
     }
 }

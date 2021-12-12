@@ -37,6 +37,7 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -103,6 +104,16 @@
                                 <Insets left="60.0" top="5.0" />
                             </HBox.margin>
                         </DatePicker>
+                  <Label prefHeight="17.0" prefWidth="60.0" text="Start Time">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="startTimeTextField" prefHeight="25.0" prefWidth="143.0">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
                     </children>
                 </HBox>
             <HBox prefHeight="55.0" prefWidth="565.0">
@@ -117,6 +128,16 @@
                         <Insets left="60.0" top="5.0" />
                      </HBox.margin>
                   </DatePicker>
+                  <Label prefHeight="17.0" prefWidth="53.0" text="End Time">
+                     <HBox.margin>
+                        <Insets left="10.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="endTimeTextField" prefHeight="25.0" prefWidth="144.0">
+                     <HBox.margin>
+                        <Insets left="10.0" top="5.0" />
+                     </HBox.margin>
+                  </TextField>
                </children>
             </HBox>
                 <HBox prefHeight="100.0" prefWidth="200.0">
