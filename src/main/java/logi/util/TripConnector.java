@@ -7,11 +7,7 @@ import logi.models.Trip;
 import logi.models.Truck;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class TripConnector implements Connector<Trip>{
 
@@ -41,6 +37,8 @@ public class TripConnector implements Connector<Trip>{
 
     @Override
     public ObservableList<Trip> getRecords() {
+        DateUtils dateUtils = new DateUtils();
+
         ObservableList<Trip> tripsList = FXCollections.observableArrayList();
         Connection conn = getConnection();
         String query = "SELECT * FROM (SELECT t1.truckID, t1.capacity, t1.originFacilityID, t1.destinationFacilityID, " +
@@ -60,7 +58,6 @@ public class TripConnector implements Connector<Trip>{
             rs = st.executeQuery(query);
             Trip trip;
             while (rs.next()) {
-                System.out.println(rs.getType());
 
                 trip = new Trip(
                         new Truck(rs.getString("t2.truckId"), rs.getInt("t2.capacity")),
@@ -68,8 +65,8 @@ public class TripConnector implements Connector<Trip>{
                                 rs.getString("t2.originFacilityAddress")),
                         new Facility(rs.getString("t2.destinationFacilityId"),
                                 rs.getString("t2.destinationFacilityAddress")),
-                        convertDateFormat(rs.getTimestamp("t2.startDate")),
-                        convertDateFormat(rs.getTimestamp("t2.endDate")),
+                        dateUtils.convertDateFormat(rs.getTimestamp("t2.startDate")),
+                        dateUtils.convertDateFormat(rs.getTimestamp("t2.endDate")),
                         rs.getString("t2.transitTime"),
                         rs.getInt("t2.tripId")
                 );
@@ -83,6 +80,8 @@ public class TripConnector implements Connector<Trip>{
 
     @Override
     public Trip getRecord(String primaryKey) {
+        DateUtils dateUtils = new DateUtils();
+
         Connection conn = getConnection();
         String query = "SELECT * FROM (SELECT t1.truckID, t1.capacity, t1.originFacilityID, t1.destinationFacilityID, " +
                 "t1.startDate, t1.endDate, t1.originFacilityAddress, t1.tripId, facilities.facilityAddress AS destinationFacilityAddress FROM " +
@@ -104,8 +103,8 @@ public class TripConnector implements Connector<Trip>{
                                 rs.getString("t2.originFacilityAddress")),
                         new Facility(rs.getString("t2.destinationFacilityId"),
                                 rs.getString("t2.destinationFacilityAddress")),
-                        convertDateFormat(rs.getTimestamp("t2.startDate")),
-                        convertDateFormat(rs.getTimestamp("t2.endDate")),
+                        dateUtils.convertDateFormat(rs.getTimestamp("t2.startDate")),
+                        dateUtils.convertDateFormat(rs.getTimestamp("t2.endDate")),
                         rs.getInt("t2.tripId")
                 );
                 System.out.println(trip);
@@ -124,57 +123,32 @@ public class TripConnector implements Connector<Trip>{
 
     @Override
     public void insertRecord(Trip trip) {
+        DateUtils dateUtils = new DateUtils();
+
         String query = "INSERT INTO trips VALUES ('"
                 + trip.getTruck() + "', '"
                 + trip.getOriginFacility() + "', '"
                 + trip.getDestinationFacility() + "', '"
                 + trip.getStartDate() + "', '"
                 + trip.getEndDate() + "', '"
-                + getTransitTime(trip.getStartDate(),
+                + dateUtils.getTransitTime(trip.getStartDate(),
                 trip.getEndDate()) + "', tripID = NULL);";
 
         executeQuery(query);
     }
 
-    private static String getTransitTime(LocalDateTime start, LocalDateTime end) {
-        long days = ChronoUnit.DAYS.between(start, end);
-        long hours = ChronoUnit.HOURS.between(start, end) % 24;
-        long minutes = ChronoUnit.MINUTES.between(start, end) % 60;
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        if (days > 1) {
-            stringBuilder.append(days).append(" days, ");
-        } else if (days == 1) {
-            stringBuilder.append(days).append(" day, ");
-        }
-
-        if (hours > 1) {
-            stringBuilder.append(hours).append(" hours, ");
-        } else if (hours == 1) {
-            stringBuilder.append(hours).append(" hour, ");
-        }
-
-        if (minutes > 1) {
-            stringBuilder.append(minutes).append(" minutes, ");
-        } else if (minutes == 1) {
-            stringBuilder.append(minutes).append(" minutes, ");
-        }
-
-        return  stringBuilder.toString().trim().replaceAll(",$", "");
-    }
-
-
     @Override
     public void updateRecord(Trip trip, String tripID) {
         ArrayList<String> queries = new ArrayList<>();
+
+        DateUtils dateUtils = new DateUtils();
 
         queries.add("UPDATE trips " + "SET truckId = '" + trip.getTruck() + "' WHERE tripID = " + tripID + ";");
         queries.add("UPDATE trips " + "SET originFacilityID = '" + trip.getOriginFacility() + "' WHERE tripID = " + tripID + ";");
         queries.add("UPDATE trips " + "SET destinationFacilityID  = '" + trip.getDestinationFacility() + "' WHERE tripID = " + tripID + ";");
         queries.add("UPDATE trips " + "SET startDate  = '" + trip.getStartDate() + "' WHERE tripID = " + tripID + ";");
         queries.add("UPDATE trips " + "SET endDate  = '" + trip.getEndDate() + "' WHERE tripID = " + tripID + ";");
-        queries.add("UPDATE trips " + "SET transitTime = '" + getTransitTime(trip.getStartDate(), trip.getEndDate())  + "' WHERE tripID = " + tripID + ";");
+        queries.add("UPDATE trips " + "SET transitTime = '" + dateUtils.getTransitTime(trip.getStartDate(), trip.getEndDate())  + "' WHERE tripID = " + tripID + ";");
 
         for (String query: queries) {
             executeQuery(query);
@@ -187,19 +161,5 @@ public class TripConnector implements Connector<Trip>{
                 + "' AND originFacilityID = '" + trip.getOriginFacility().toString()
                 + "' AND destinationFacilityID = '" + trip.getDestinationFacility().toString() + "';";
         executeQuery(query);
-    }
-
-    private static LocalDateTime convertDateFormat(Timestamp rs) {
-        LocalDateTime date = rs.toLocalDateTime();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", Locale.US);
-        String formatDateTime = date.format(formatter);
-
-        LocalDateTime formattedDateTime = LocalDateTime.parse(formatDateTime, formatter);
-
-        DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-        return LocalDateTime.parse(formattedDateTime.format(newFormatter), newFormatter);
-
     }
 }

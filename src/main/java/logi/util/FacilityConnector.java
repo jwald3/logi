@@ -7,9 +7,6 @@ import logi.models.Trip;
 import logi.models.Truck;
 
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 
 public class FacilityConnector implements Connector <Facility> {
@@ -89,6 +86,8 @@ public class FacilityConnector implements Connector <Facility> {
 
     @Override
     public ObservableList<Trip> getRelatedRecords(Facility facility) {
+        DateUtils dateUtils = new DateUtils();
+
         ObservableList<Trip> tripsList = FXCollections.observableArrayList();
         Connection conn = getConnection();
         String query = "SELECT * " +
@@ -109,10 +108,10 @@ public class FacilityConnector implements Connector <Facility> {
                         new Truck(rs.getString("truckId"), 0),
                         new Facility(rs.getString("originFacilityId"), ""),
                         new Facility(rs.getString("destinationFacilityId"), ""),
-                        convertDateFormat(rs.getTimestamp("startDate")),
-                        convertDateFormat(rs.getTimestamp("endDate")),
-                        getTransitTime(convertDateFormat(rs.getTimestamp("startDate")),
-                                convertDateFormat(rs.getTimestamp("endDate"))),
+                        dateUtils.convertDateFormat(rs.getTimestamp("startDate")),
+                        dateUtils.convertDateFormat(rs.getTimestamp("endDate")),
+                        dateUtils.getTransitTime(dateUtils.convertDateFormat(rs.getTimestamp("startDate")),
+                                dateUtils.convertDateFormat(rs.getTimestamp("endDate"))),
                         rs.getInt("tripID")
                 );
                 tripsList.add(trip);
@@ -159,47 +158,5 @@ public class FacilityConnector implements Connector <Facility> {
             executeQuery(query);
         }
 
-    }
-
-    private static LocalDateTime convertDateFormat(Timestamp rs) {
-        LocalDateTime date = rs.toLocalDateTime();
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime = date.format(formatter);
-
-
-        LocalDateTime formattedDateTime = LocalDateTime.parse(formatDateTime, formatter);
-
-        DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-        return LocalDateTime.parse(formattedDateTime.format(newFormatter), newFormatter);
-    }
-
-    private static String getTransitTime(LocalDateTime start, LocalDateTime end) {
-        long days = ChronoUnit.DAYS.between(start, end);
-        long hours = ChronoUnit.HOURS.between(start, end) % 24;
-        long minutes = ChronoUnit.MINUTES.between(start, end) % 60;
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        if (days > 1) {
-            stringBuilder.append(days).append(" days, ");
-        } else if (days == 1) {
-            stringBuilder.append(days).append(" day, ");
-        }
-
-        if (hours > 1) {
-            stringBuilder.append(hours).append(" hours, ");
-        } else if (hours == 1) {
-            stringBuilder.append(hours).append(" hour, ");
-        }
-
-        if (minutes > 1) {
-            stringBuilder.append(minutes).append(" minutes, ");
-        } else if (minutes == 1) {
-            stringBuilder.append(minutes).append(" minutes, ");
-        }
-
-        return  stringBuilder.toString().trim().replaceAll(",$", "");
     }
 }
