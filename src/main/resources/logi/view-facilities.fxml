@@ -47,27 +47,27 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.ViewFacilityController">
+<BorderPane fx:id="rootID" maxHeight="475.0" maxWidth="700.0" minHeight="475.0" minWidth="700.0" prefHeight="475.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.ViewFacilityController">
     <top>
         <fx:include source="navi-menu.fxml" />
     </top>
     <left>
-        <Region prefHeight="375.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+        <Region maxWidth="175.0" minWidth="175.0" prefHeight="375.0" prefWidth="175.0" BorderPane.alignment="CENTER" />
     </left>
     <right>
-        <VBox prefHeight="375.0" prefWidth="175.0" BorderPane.alignment="CENTER">
+        <VBox maxWidth="175.0" minWidth="175.0" prefHeight="375.0" prefWidth="175.0" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" onAction="#addFacility" prefHeight="25.0" prefWidth="90.0" text="Add Facility">
+                <Button alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#addFacility" prefHeight="30.0" prefWidth="100.0" text="Add Facility">
                     <VBox.margin>
-                        <Insets bottom="10.0" left="30.0" top="50.0" />
+                        <Insets bottom="10.0" left="30.0" top="75.0" />
                     </VBox.margin>
                 </Button>
-                <Button mnemonicParsing="false" onAction="#clickDelete" text="Delete Facility">
+                <Button alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickDelete" prefHeight="30.0" prefWidth="100.0" text="Delete Facility">
                     <VBox.margin>
                         <Insets left="30.0" />
                     </VBox.margin>
                 </Button>
-            <Button mnemonicParsing="false" onAction="#clickView" prefHeight="25.0" prefWidth="90.0" text="View Facility">
+            <Button alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickView" prefHeight="30.0" prefWidth="100.0" text="View Facility">
                <VBox.margin>
                   <Insets left="30.0" top="10.0" />
                </VBox.margin>
@@ -76,10 +76,10 @@
         </VBox>
     </right>
    <center>
-      <TableView fx:id="tvFacilities" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tvFacilities" maxWidth="325.0" minWidth="325.0" prefHeight="200.0" prefWidth="325.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="colName" prefWidth="66.0" text="Name" />
-          <TableColumn fx:id="colAddress" prefWidth="258.0" text="Address" />
+          <TableColumn fx:id="colName" maxWidth="75.0" minWidth="75.0" prefWidth="75.0" text="Name" />
+          <TableColumn fx:id="colAddress" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Address" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="40.0" top="20.0" />

@@ -21,9 +21,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.util.ResourceBundle;
 
 public class ViewSingleTripController implements Initializable {
@@ -120,6 +123,8 @@ public class ViewSingleTripController implements Initializable {
                 truck, originFacility, destinationFacility, startLocalDateTime, endLocalDateTime
         );
 
+        trip.setTransitTime();
+
         TripInfoController controller = loader.getController();
 
         controller.setTruckIdTextField(truck);
@@ -130,6 +135,7 @@ public class ViewSingleTripController implements Initializable {
         controller.setDestinationFacilityAddressTextField(destinationFacility);
         controller.setStartDateTextField(trip);
         controller.setEndDateTextField(trip);
+        controller.setTransitTimeTextLabel(trip);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -154,11 +160,21 @@ public class ViewSingleTripController implements Initializable {
         destinationFacilityChoiceBox.setValue(String.valueOf(facility));
     }
 
-    public void setStartDateInput(LocalDate date) {
-        startDateInput.setValue(date);
+    public void setStartDateInput(LocalDate localDate) {
+
+        startDateInput.setValue(localDate);
     }
 
-    public void setEndDateInput(LocalDate date) {
-        endDateInput.setValue(date);
+    public void setEndDateInput(LocalDate localDate) {
+
+        endDateInput.setValue(localDate);
+    }
+
+    public void setStartTimeTextField(LocalTime localTime) {
+        startTimeTextField.setText(localTime.toString());
+    }
+
+    public void setEndTimeTextField(LocalTime localTime) {
+        endTimeTextField.setText(localTime.toString());
     }
 }

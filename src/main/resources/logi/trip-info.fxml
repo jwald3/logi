@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.canvas.*?>
-<?import javafx.scene.shape.*?>
 <?import java.lang.*?>
-<?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="viewSingleTripRootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.TripInfoController">
+<BorderPane fx:id="viewSingleTripRootID" maxHeight="475.0" maxWidth="-Infinity" minHeight="475.0" minWidth="-Infinity" prefHeight="475.0" prefWidth="739.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.TripInfoController">
     <top>
         <fx:include source="navi-menu.fxml" />
     </top>
@@ -19,7 +26,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Truck Info" textAlignment="CENTER" wrappingWidth="113.81640625">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="System" size="14.0" />
                      </font>
                   </Text>
                </children>
@@ -32,22 +39,28 @@
             </HBox>
                 <HBox prefHeight="30.0" prefWidth="530.0">
                     <children>
-                        <HBox prefHeight="29.0" prefWidth="94.0">
+                        <HBox prefHeight="30.0" prefWidth="104.0">
                             <children>
-                                <Label text="Truck">
+                                <Label prefHeight="20.0" prefWidth="78.0" text="Truck:">
                                     <HBox.margin>
                                         <Insets left="50.0" top="5.0" />
                                     </HBox.margin>
+                           <font>
+                              <Font name="System" size="14.0" />
+                           </font>
                                 </Label>
                             </children>
                         </HBox>
-                  <Label fx:id="truckNameLabelText" prefHeight="17.0" prefWidth="178.0" text="Truck Name">
+                  <Label fx:id="truckNameLabelText" prefHeight="20.0" prefWidth="168.0" text="Truck Name">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
                         <Region prefHeight="30.0" prefWidth="276.0" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#clickView" prefHeight="25.0" prefWidth="68.0" text="Edit Trip" />
+                        <Button alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickView" prefHeight="30.0" prefWidth="100.0" text="Edit Trip" />
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -58,22 +71,31 @@
                 </HBox>
                 <HBox prefHeight="29.0" prefWidth="565.0">
                     <children>
-                        <HBox prefHeight="29.0" prefWidth="94.0">
+                        <HBox prefHeight="29.0" prefWidth="104.0">
                             <children>
-                                <Label text="Capacity">
+                                <Label prefHeight="20.0" prefWidth="81.0" text="Capacity:">
                                     <HBox.margin>
                                         <Insets left="32.0" top="5.0" />
                                     </HBox.margin>
+                           <font>
+                              <Font name="System" size="14.0" />
+                           </font>
                                 </Label>
                             </children>
                         </HBox>
-                  <Label fx:id="truckCapacityLabelText" prefHeight="17.0" prefWidth="107.0" text="Capacity">
+                  <Label fx:id="truckCapacityLabelText" prefHeight="20.0" prefWidth="105.0" text="Capacity">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
-                        <Region prefHeight="29.0" prefWidth="346.0" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="68.0" text="Cancel" />
+                        <Region prefHeight="30.0" prefWidth="339.0" />
+                        <Button alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#cancel" prefHeight="30.0" prefWidth="100.0" text="Cancel">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin></Button>
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -96,26 +118,29 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Origin Facility" textAlignment="CENTER" wrappingWidth="271.81640625">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="System" size="14.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="5.0" />
+                              <Insets bottom="10.0" />
                            </VBox.margin>
                         </Text>
                         <HBox prefHeight="30.0" prefWidth="530.0">
                            <children>
-                              <HBox prefHeight="29.0" prefWidth="94.0">
+                              <HBox prefHeight="30.0" prefWidth="113.0">
                                  <children>
-                                    <Label prefHeight="17.0" prefWidth="94.0" text="Facility ID">
+                                    <Label prefHeight="20.0" prefWidth="113.0" text="Facility ID:">
                                        <HBox.margin>
-                                          <Insets left="28.0" top="5.0" />
+                                          <Insets left="38.0" top="5.0" />
                                        </HBox.margin>
+                                       <font>
+                                          <Font name="System" size="14.0" />
+                                       </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <Label fx:id="originFacilityNameText" prefHeight="17.0" prefWidth="179.0" text="Origin Facility">
+                              <Label fx:id="originFacilityNameText" prefHeight="41.0" prefWidth="200.0" text="Origin Facility">
                                  <HBox.margin>
-                                    <Insets top="5.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
                            </children>
@@ -125,30 +150,39 @@
                         </HBox>
                         <HBox prefHeight="29.0" prefWidth="307.0">
                            <children>
-                              <Label prefHeight="17.0" prefWidth="94.0" text="Facility Address">
+                              <Label prefHeight="20.0" prefWidth="119.0" text="Facility Address:">
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="System" size="14.0" />
+                                 </font>
                               </Label>
-                              <Label fx:id="originFacilityAddressLabelText" prefHeight="17.0" prefWidth="250.0" text="Facility Address" textOverrun="CLIP" wrapText="true">
+                              <Label fx:id="originFacilityAddressLabelText" prefHeight="41.0" prefWidth="242.0" text="Facility Address" textOverrun="CLIP" wrapText="true">
                                  <HBox.margin>
-                                    <Insets top="5.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
                         <HBox prefHeight="30.0" prefWidth="530.0">
                            <children>
-                              <HBox prefHeight="29.0" prefWidth="94.0">
+                              <HBox prefHeight="30.0" prefWidth="77.0">
                                  <children>
-                                    <Label prefHeight="17.0" prefWidth="94.0" text="Start Date">
+                                    <Label prefHeight="25.0" prefWidth="115.0" text="Start Date:">
                                        <HBox.margin>
-                                          <Insets left="28.0" top="5.0" />
+                                          <Insets top="5.0" />
                                        </HBox.margin>
+                                       <font>
+                                          <Font name="System" size="14.0" />
+                                       </font>
                                     </Label>
                                  </children>
+                                 <HBox.margin>
+                                    <Insets left="35.0" />
+                                 </HBox.margin>
                               </HBox>
-                              <Label fx:id="startDateLabelText" prefHeight="17.0" prefWidth="162.0" text="Start Date">
+                              <Label fx:id="startDateLabelText" prefHeight="45.0" prefWidth="162.0" text="Start Date">
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
@@ -164,7 +198,7 @@
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Destination Facility" textAlignment="CENTER" wrappingWidth="271.81640625">
                            <font>
-                              <Font size="14.0" />
+                              <Font name="System" size="14.0" />
                            </font>
                            <VBox.margin>
                               <Insets bottom="5.0" />
@@ -172,16 +206,19 @@
                         </Text>
                         <HBox prefHeight="30.0" prefWidth="530.0">
                            <children>
-                              <HBox prefHeight="29.0" prefWidth="94.0">
+                              <HBox prefHeight="30.0" prefWidth="114.0">
                                  <children>
-                                    <Label prefHeight="17.0" prefWidth="94.0" text="Facility ID">
+                                    <Label prefHeight="20.0" prefWidth="128.0" text="Facility ID:">
                                        <HBox.margin>
-                                          <Insets left="28.0" top="5.0" />
+                                          <Insets left="40.0" top="5.0" />
                                        </HBox.margin>
+                                       <font>
+                                          <Font name="System" size="14.0" />
+                                       </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <Label fx:id="destinationFacilityNameLabelText" prefHeight="17.0" prefWidth="181.0" text="Destination Facility">
+                              <Label fx:id="destinationFacilityNameLabelText" prefHeight="17.0" prefWidth="189.0" text="Destination Facility">
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
@@ -193,30 +230,36 @@
                         </HBox>
                         <HBox prefHeight="29.0" prefWidth="94.0">
                            <children>
-                              <Label prefHeight="17.0" prefWidth="94.0" text="Facility Address">
+                              <Label prefHeight="20.0" prefWidth="116.0" text="Facility Address:">
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="System" size="14.0" />
+                                 </font>
                               </Label>
-                              <Label fx:id="destinationFacilityAddressLabelText" prefHeight="17.0" prefWidth="237.0" text="Facility Address" textOverrun="CLIP" wrapText="true">
+                              <Label fx:id="destinationFacilityAddressLabelText" prefHeight="45.0" prefWidth="214.0" text="Facility Address" textOverrun="CLIP" wrapText="true">
                                  <HBox.margin>
-                                    <Insets top="5.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </Label>
                            </children>
                         </HBox>
                         <HBox prefHeight="30.0" prefWidth="530.0">
                            <children>
-                              <HBox prefHeight="29.0" prefWidth="94.0">
+                              <HBox prefHeight="30.0" prefWidth="113.0">
                                  <children>
-                                    <Label prefHeight="17.0" prefWidth="94.0" text="End Date">
+                                    <Label prefHeight="25.0" prefWidth="70.0" text="End Date:">
                                        <HBox.margin>
-                                          <Insets left="28.0" top="5.0" />
+                                          <Insets left="43.0" top="5.0" />
                                        </HBox.margin>
+                                       <font>
+                                          <Font name="System" size="14.0" />
+                                       </font>
                                     </Label>
                                  </children>
                               </HBox>
-                              <Label fx:id="endDateLabelText" prefHeight="17.0" prefWidth="181.0" text="End Date">
+                              <Label fx:id="endDateLabelText" prefHeight="48.0" prefWidth="181.0" text="End Date">
                                  <HBox.margin>
                                     <Insets top="5.0" />
                                  </HBox.margin>
@@ -228,6 +271,27 @@
                         </HBox>
                      </children>
                   </VBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="25.0" prefWidth="679.0">
+               <children>
+                  <Region prefHeight="25.0" prefWidth="234.0" />
+                  <Label text="Transit Time:">
+                     <padding>
+                        <Insets top="5.0" />
+                     </padding>
+                     <font>
+                        <Font name="System" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="transitTimeTextLabel" prefHeight="20.0" prefWidth="259.0" text="Label">
+                     <HBox.margin>
+                        <Insets left="5.0" top="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
                </children>
             </HBox>
             </children>

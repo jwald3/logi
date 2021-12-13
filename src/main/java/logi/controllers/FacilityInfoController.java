@@ -30,6 +30,8 @@ public class FacilityInfoController implements Initializable {
     public TableColumn <Trip, String> colDestinationFacility;
     public TableColumn <Trip, String> colStartDate;
     public TableColumn <Trip, String> colEndDate;
+    public TableColumn <Trip, String> colTransitTime;
+
 
     public Label facilityNameLabelValue;
     public Label facilityAddressLabelValue;
@@ -58,6 +60,7 @@ public class FacilityInfoController implements Initializable {
         colDestinationFacility.setCellValueFactory(new PropertyValueFactory<>("destinationFacility"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        colTransitTime.setCellValueFactory(new PropertyValueFactory<>("transitTime"));
 
         tvTrips.setItems(list);
     }

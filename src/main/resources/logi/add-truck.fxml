@@ -36,42 +36,32 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.AddTruckController">
+<BorderPane fx:id="rootID" maxHeight="475.0" maxWidth="600.0" minHeight="475.0" minWidth="600.0" prefHeight="475.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.AddTruckController">
     <top>
         <fx:include source="navi-menu.fxml" />
     </top>
    <center>
-      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="trailerIdTextLabel" text="Trailer ID">
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="25.0" />
+                  <Insets bottom="5.0" left="-140.0" right="5.0" top="100.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="trailerIdTextField" promptText="Enter Trailer ID" />
+            <TextField fx:id="trailerIdTextField" prefHeight="30.0" prefWidth="200.0" promptText="Enter Trailer ID" />
             <Label fx:id="capacityLabelText" text="Capacity (Pounds)">
                <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                  <Insets bottom="5.0" left="-90.0" right="5.0" top="5.0" />
                </VBox.margin>
             </Label>
-            <TextField fx:id="capacityTextField" promptText="Enter Capacity" />
-            <Button fx:id="addVehicleButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="false" onAction="#submitTruckForm" text="Add Vehicle" textAlignment="CENTER">
+            <TextField fx:id="capacityTextField" prefHeight="30.0" prefWidth="200.0" promptText="Enter Capacity" />
+            <Button fx:id="addVehicleButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" mouseTransparent="false" onAction="#submitTruckForm" prefHeight="30.0" prefWidth="100.0" text="Add Vehicle" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#viewTrucks" text="View Vehicles" />
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#viewTrucks" prefHeight="30.0" prefWidth="100.0" text="View Vehicles" />
          </children>
       </VBox>
    </center>

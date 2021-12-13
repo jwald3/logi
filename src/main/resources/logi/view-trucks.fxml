@@ -47,39 +47,39 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="rootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.ViewTruckController">
+<BorderPane fx:id="rootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="475.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.ViewTruckController">
     <top>
         <fx:include source="navi-menu.fxml" />
     </top>
     <left>
-        <Region prefHeight="375.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
+        <Region maxHeight="375.0" maxWidth="175.0" minHeight="375.0" minWidth="175.0" prefHeight="375.0" prefWidth="175.0" BorderPane.alignment="CENTER" />
     </left>
    <right>
-      <VBox prefHeight="375.0" prefWidth="175.0" BorderPane.alignment="CENTER">
+      <VBox alignment="TOP_CENTER" prefHeight="375.0" prefWidth="175.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#addTruck" prefHeight="25.0" prefWidth="83.0" text="Add Truck">
+            <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#addTruck" prefHeight="30.0" prefWidth="100.0" text="Add Truck">
                <VBox.margin>
-                  <Insets bottom="10.0" left="30.0" top="50.0" />
+                  <Insets bottom="10.0" top="75.0" />
                </VBox.margin>
             </Button>
-             <Button mnemonicParsing="false" onAction="#clickDelete" prefHeight="25.0" prefWidth="90.0" text="Delete Truck">
+             <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickDelete" prefHeight="30.0" prefWidth="100.0" text="Delete Truck">
                <VBox.margin>
-                  <Insets left="30.0" />
+                  <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#clickView" prefHeight="25.0" prefWidth="92.0" text="View Truck">
+            <Button maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickView" prefHeight="30.0" prefWidth="100.0" text="View Truck">
                <VBox.margin>
-                  <Insets left="30.0" top="10.0" />
+                  <Insets top="10.0" />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
    </right>
    <center>
-      <TableView fx:id="tvTrucks" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <TableView fx:id="tvTrucks" maxWidth="300.0" minWidth="300.0" prefHeight="200.0" prefWidth="300.0" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn fx:id="colTruckID" prefWidth="154.0" text="Truck ID" />
-          <TableColumn fx:id="colCapacity" prefWidth="170.0" text="Capacity (in Pounds)" />
+          <TableColumn fx:id="colTruckID" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Truck ID" />
+          <TableColumn fx:id="colCapacity" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" resizable="false" text="Capacity (in Pounds)" />
         </columns>
          <BorderPane.margin>
             <Insets bottom="40.0" top="20.0" />

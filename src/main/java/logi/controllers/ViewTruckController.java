@@ -31,6 +31,7 @@ public class ViewTruckController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         truckConnector = new TruckConnector();
+        tvTrucks.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         showTrucks();
     }
 

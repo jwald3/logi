@@ -14,7 +14,6 @@
                   <MenuItem mnemonicParsing="false" onAction="#onAddNewTripMenuItemClick" text="Trip" />
                </items>
             </Menu>
-            <MenuItem mnemonicParsing="false" text="Save" />
             <MenuItem mnemonicParsing="false" text="Close" />
          </items>
       </Menu>
@@ -23,11 +22,6 @@
             <MenuItem mnemonicParsing="false" onAction="#onViewTrucksMenuItemClick" text="Trucks" />
             <MenuItem mnemonicParsing="false" onAction="#onViewFacilitiesMenuItemClick" text="Facilities" />
             <MenuItem mnemonicParsing="false" onAction="#onViewTripsMenuItemClick" text="Trips" />
-         </items>
-      </Menu>
-      <Menu mnemonicParsing="false" text="Help">
-         <items>
-            <MenuItem mnemonicParsing="false" text="About" />
          </items>
       </Menu>
    </menus>

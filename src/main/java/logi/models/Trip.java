@@ -1,7 +1,7 @@
 package logi.models;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 
 public class Trip {
     private final Truck truck;
@@ -9,9 +9,19 @@ public class Trip {
     private final Facility destinationFacility;
     private final LocalDateTime startDate;
     private final LocalDateTime endDate;
+    private String transitTime;
     private int tripId;
-    public String stringStartDate;
 
+
+    public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDateTime startDate, LocalDateTime endDate, String transitTime, int tripId) {
+        this.truck = truck;
+        this.originFacility = originFacility;
+        this.destinationFacility = destinationFacility;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.tripId = tripId;
+        this.transitTime = transitTime;
+    }
 
     public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDateTime startDate, LocalDateTime endDate, int tripId) {
         this.truck = truck;
@@ -20,7 +30,6 @@ public class Trip {
         this.startDate = startDate;
         this.endDate = endDate;
         this.tripId = tripId;
-        setStringStartDate(convertDateFormat(startDate));
     }
 
     public Trip(Truck truck, Facility originFacility, Facility destinationFacility, LocalDateTime startDate, LocalDateTime endDate) {
@@ -29,7 +38,6 @@ public class Trip {
         this.destinationFacility = destinationFacility;
         this.startDate = startDate;
         this.endDate = endDate;
-        setStringStartDate(convertDateFormat(startDate));
     }
 
 
@@ -51,32 +59,25 @@ public class Trip {
 
     public LocalDateTime getEndDate() { return endDate; }
 
+    public String getTransitTime() { return transitTime; }
+
     public int getTripId() {
         return this.tripId;
     }
 
+    public void setTransitTime() {
+        this.transitTime = findTransitTime(this.startDate, this.endDate);
+    }
+
+    private static String findTransitTime(LocalDateTime start, LocalDateTime end) {
+        long days = ChronoUnit.DAYS.between(start, end);
+        long hours = ChronoUnit.HOURS.between(start, end) % 24;
+        long minutes = ChronoUnit.MINUTES.between(start, end) % 60;
+
+        return  (days + " days, " + hours + " hours, " + minutes + " minutes");
+    }
+
     public String toString() {
         return this.truck.toString() + " (" + this.originFacility + " -> " + this.destinationFacility + ")";
-    }
-
-    private static String convertDateFormat(LocalDateTime localDateTime) {
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String formatDateTime = localDateTime.format(formatter);
-
-
-        LocalDateTime formattedDateTime = LocalDateTime.parse(formatDateTime, formatter);
-
-        DateTimeFormatter newFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-        return formattedDateTime.format(newFormatter);
-    }
-
-    public void setStringStartDate(String stringStartDate) {
-        this.stringStartDate = stringStartDate;
-    }
-
-    public String getStringStartDate() {
-        return convertDateFormat(startDate);
     }
 }

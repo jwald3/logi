@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
@@ -11,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="truckInfoRootID" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="468.0" prefWidth="796.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.TruckInfoController">
+<BorderPane fx:id="truckInfoRootID" maxHeight="475.0" maxWidth="1025.0" minHeight="475.0" minWidth="1025.0" prefHeight="475.0" prefWidth="1025.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="logi.controllers.TruckInfoController">
     <top>
         <fx:include source="navi-menu.fxml" />
     </top>
@@ -25,16 +30,19 @@
                                   <Insets left="50.0" top="5.0" />
                               </HBox.margin>
                      <font>
-                        <Font name="System Bold" size="12.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                           </Label>
                   <Label fx:id="truckIdLabelText" prefHeight="17.0" prefWidth="290.0" text="Truck ID">
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
-                        <Region prefHeight="29.0" prefWidth="268.0" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#clickEdit" text="Edit Truck" />
+                        <Region prefHeight="30.0" prefWidth="368.0" />
+                        <Button alignment="CENTER" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#clickEdit" text="Edit Truck" />
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -52,7 +60,7 @@
                                         <Insets left="32.0" top="5.0" />
                                     </HBox.margin>
                            <font>
-                              <Font name="System Bold" size="12.0" />
+                              <Font name="System Bold" size="14.0" />
                            </font>
                                 </Label>
                             </children>
@@ -61,9 +69,15 @@
                      <HBox.margin>
                         <Insets top="5.0" />
                      </HBox.margin>
+                     <font>
+                        <Font size="14.0" />
+                     </font>
                   </Label>
-                        <Region prefHeight="29.0" prefWidth="320.0" />
-                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="68.0" text="Cancel" />
+                        <Region prefHeight="35.0" prefWidth="422.0" />
+                        <Button alignment="CENTER" maxHeight="30.0" maxWidth="100.0" minHeight="30.0" minWidth="100.0" mnemonicParsing="false" onAction="#cancel" prefHeight="30.0" prefWidth="100.0" text="Cancel">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin></Button>
                     </children>
                     <opaqueInsets>
                         <Insets />
@@ -74,37 +88,36 @@
                         <Insets />
                     </opaqueInsets>
                     <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets top="30.0" />
                     </VBox.margin>
                     <children>
-                        <Region prefHeight="29.0" prefWidth="207.0" />
-                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="323.0" text="Trips" textAlignment="CENTER">
+                        <Label alignment="CENTER" prefHeight="27.0" prefWidth="876.0" text="Trips" textAlignment="CENTER">
                             <font>
                                 <Font size="18.0" />
                             </font>
                         </Label>
-                        <Region prefHeight="29.0" prefWidth="214.0" />
                     </children>
                 </HBox>
-            <TableView fx:id="tvTrips" maxWidth="700.0" minWidth="700.0" prefHeight="208.0" prefWidth="700.0">
+            <TableView fx:id="tvTrips" maxHeight="250.0" maxWidth="825.0" minHeight="250.0" minWidth="825.0" prefHeight="250.0" prefWidth="825.0">
                <columns>
                   <TableColumn fx:id="colTruck" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Truck" />
                   <TableColumn fx:id="colOriginFacility" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Origin Facility" />
                   <TableColumn fx:id="colDestinationFacility" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Destination Facility" />
-                  <TableColumn fx:id="colStartDate" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Start Date" />
-                  <TableColumn fx:id="colEndDate" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="End Date" />
+                  <TableColumn fx:id="colStartDate" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="Start Date" />
+                  <TableColumn fx:id="colEndDate" maxWidth="125.0" minWidth="125.0" prefWidth="125.0" text="End Date" />
+                  <TableColumn fx:id="colTransitTime" maxWidth="175.0" minWidth="175.0" prefWidth="175.0" resizable="false" text="Transit Time" />
                </columns>
                <VBox.margin>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="10.0" />
+                  <Insets bottom="40.0" left="20.0" right="20.0" top="10.0" />
                </VBox.margin>
             </TableView>
             </children>
         </VBox>
     </center>
     <left>
-        <Region prefHeight="375.0" prefWidth="35.0" BorderPane.alignment="CENTER" />
+        <Region minWidth="100.0" prefHeight="375.0" prefWidth="35.0" BorderPane.alignment="CENTER" />
     </left>
     <right>
-        <Region prefHeight="200.0" prefWidth="35.0" BorderPane.alignment="CENTER" />
+        <Region minHeight="200.0" minWidth="100.0" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
     </right>
 </BorderPane>

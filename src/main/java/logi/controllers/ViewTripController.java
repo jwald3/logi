@@ -30,7 +30,7 @@ public class ViewTripController implements Initializable {
     public TableColumn<Trip, String> colDestinationFacility;
     public TableColumn<Trip, String> colStartDate;
     public TableColumn<Trip, String> colEndDate;
-
+    public TableColumn<Trip, String> colTransitTime;
 
 
     private TripConnector tripConnector;
@@ -61,6 +61,7 @@ public class ViewTripController implements Initializable {
         colDestinationFacility.setCellValueFactory(new PropertyValueFactory<>("destinationFacility"));
         colStartDate.setCellValueFactory(new PropertyValueFactory<>("startDate"));
         colEndDate.setCellValueFactory(new PropertyValueFactory<>("endDate"));
+        colTransitTime.setCellValueFactory(new PropertyValueFactory<>("transitTime"));
 
         tvTrips.setItems(list);
     }
@@ -94,6 +95,7 @@ public class ViewTripController implements Initializable {
             controller.setStartDateTextField(tvTrips.getSelectionModel().getSelectedItem());
             controller.setEndDateTextField(tvTrips.getSelectionModel().getSelectedItem());
             controller.setTripId(tvTrips.getSelectionModel().getSelectedItem().getTripId());
+            controller.setTransitTimeTextLabel(tvTrips.getSelectionModel().getSelectedItem());
 
             Scene scene = new Scene(root);
             stage.setScene(scene);

@@ -15,6 +15,9 @@ import logi.models.Truck;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 public class TripInfoController implements Initializable {
@@ -31,7 +34,7 @@ public class TripInfoController implements Initializable {
 
 
     public int tripId;
-
+    public Label transitTimeTextLabel;
 
 
     @Override
@@ -64,19 +67,25 @@ public class TripInfoController implements Initializable {
     }
 
     public void setStartDateTextField(Trip trip) {
-        startDateLabelText.setText(String.valueOf(trip.getStartDate()));
+        startDateLabelText.setText(String.valueOf(trip.getStartDate()).replace('T', ' '));
     }
 
     public void setEndDateTextField(Trip trip) {
-        endDateLabelText.setText(String.valueOf(trip.getEndDate()));
+        endDateLabelText.setText(String.valueOf(trip.getEndDate()).replace('T', ' '));
     }
 
     public void setTripId(int id) {
         this.tripId = id;
     }
 
+    public void setTransitTimeTextLabel(Trip trip) {
+        transitTimeTextLabel.setText(trip.getTransitTime());
+    }
+
     @FXML
     private void clickView () throws IOException {
+        DateTimeFormatter timestampFomat = DateTimeFormatter.ofPattern("yyyy-MM-dd' 'HH:mm");
+
         Stage stage = (Stage) viewSingleTripRootID.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trip.fxml"));
         Parent root = loader.load();
@@ -85,9 +94,17 @@ public class TripInfoController implements Initializable {
         controller.setTruckChoiceBox(truckNameLabelText.getText());
         controller.setOriginFacilityChoiceBox(originFacilityNameText.getText());
         controller.setDestinationFacilityChoiceBox(destinationFacilityNameLabelText.getText());
-        controller.setStartDateInput(LocalDate.parse(startDateLabelText.getText()));
-        controller.setEndDateInput(LocalDate.parse(endDateLabelText.getText()));
+        controller.setStartDateInput(LocalDate.parse(startDateLabelText.getText(), timestampFomat));
+        controller.setEndDateInput(LocalDate.parse(endDateLabelText.getText(), timestampFomat));
+        controller.setStartTimeTextField(LocalDateTime.parse(startDateLabelText.getText(), timestampFomat).toLocalTime());
+        controller.setEndTimeTextField(LocalDateTime.parse(endDateLabelText.getText(), timestampFomat).toLocalTime());
+
         controller.setTripID(tripId);
+
+        long minutes = ChronoUnit.MINUTES.between(LocalDateTime.parse(startDateLabelText.getText(), timestampFomat),
+                LocalDateTime.parse(endDateLabelText.getText(), timestampFomat));
+
+        System.out.println(minutes);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
