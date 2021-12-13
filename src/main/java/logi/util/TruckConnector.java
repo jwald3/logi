@@ -7,7 +7,6 @@ import logi.models.Trip;
 import logi.models.Truck;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;

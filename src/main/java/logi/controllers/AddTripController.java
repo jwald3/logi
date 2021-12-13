@@ -73,26 +73,31 @@ public class AddTripController implements Initializable {
         ) {
             if (startTimeTextField.getText().matches("^(?:\\d|[01]\\d|2[0-3]):[0-5]\\d$") &&
             endTimeTextField.getText().matches("^(?:\\d|[01]\\d|2[0-3]):[0-5]\\d$")) {
+
                 LocalTime startLocalTime = LocalTime.parse(startTimeTextField.getText());
                 LocalDateTime startLocalDateTime = LocalDateTime.of(startDateDatePicker.getValue(), startLocalTime);
 
                 LocalTime endLocalTime = LocalTime.parse(endTimeTextField.getText());
                 LocalDateTime endLocalDateTime = LocalDateTime.of(endDateDatePicker.getValue(), endLocalTime);
 
-                Trip trip = new Trip(
-                        new Truck(truckChoiceBox.getValue(), 0),
-                        new Facility(originFacilityChoiceBox.getValue(), ""),
-                        new Facility(destinationFacilityChoiceBox.getValue(), ""),
-                        startLocalDateTime,
-                        endLocalDateTime
-                );
+                if (startLocalDateTime.isBefore(endLocalDateTime)) {
+                    Trip trip = new Trip(
+                            new Truck(truckChoiceBox.getValue(), 0),
+                            new Facility(originFacilityChoiceBox.getValue(), ""),
+                            new Facility(destinationFacilityChoiceBox.getValue(), ""),
+                            startLocalDateTime,
+                            endLocalDateTime
+                    );
 
-                tripConnector.insertRecord(trip);
-                truckChoiceBox.setValue("");
-                originFacilityChoiceBox.setValue("");
-                destinationFacilityChoiceBox.setValue("");
-                startDateDatePicker.setValue(LocalDate.now());
-                endDateDatePicker.setValue(LocalDate.now());
+                    tripConnector.insertRecord(trip);
+                    truckChoiceBox.setValue("");
+                    originFacilityChoiceBox.setValue("");
+                    destinationFacilityChoiceBox.setValue("");
+                    startDateDatePicker.setValue(LocalDate.now());
+                    endDateDatePicker.setValue(LocalDate.now());
+                    startTimeTextField.setText("");
+                    endTimeTextField.setText("");
+                }
             }
         }
     }
