@@ -1,7 +1,8 @@
 package logi.models;
 
+import logi.util.DateUtils;
+
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 
 public class Trip {
     private final Truck truck;
@@ -70,11 +71,9 @@ public class Trip {
     }
 
     private static String findTransitTime(LocalDateTime start, LocalDateTime end) {
-        long days = ChronoUnit.DAYS.between(start, end);
-        long hours = ChronoUnit.HOURS.between(start, end) % 24;
-        long minutes = ChronoUnit.MINUTES.between(start, end) % 60;
+        DateUtils dateUtils = new DateUtils();
 
-        return  (days + " days, " + hours + " hours, " + minutes + " minutes");
+        return  dateUtils.getTransitTime(start, end);
     }
 
     public String toString() {

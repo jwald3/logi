@@ -17,7 +17,6 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.ResourceBundle;
 
 public class TripInfoController implements Initializable {
@@ -38,9 +37,7 @@ public class TripInfoController implements Initializable {
 
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-    }
+    public void initialize(URL url, ResourceBundle resourceBundle) {}
 
     public void setTruckIdTextField(Truck truck) {
         truckNameLabelText.setText(truck.getId());
@@ -91,6 +88,7 @@ public class TripInfoController implements Initializable {
         Parent root = loader.load();
 
         ViewSingleTripController controller = loader.getController();
+
         controller.setTruckChoiceBox(truckNameLabelText.getText());
         controller.setOriginFacilityChoiceBox(originFacilityNameText.getText());
         controller.setDestinationFacilityChoiceBox(destinationFacilityNameLabelText.getText());
@@ -100,11 +98,6 @@ public class TripInfoController implements Initializable {
         controller.setEndTimeTextField(LocalDateTime.parse(endDateLabelText.getText(), timestampFomat).toLocalTime());
 
         controller.setTripID(tripId);
-
-        long minutes = ChronoUnit.MINUTES.between(LocalDateTime.parse(startDateLabelText.getText(), timestampFomat),
-                LocalDateTime.parse(endDateLabelText.getText(), timestampFomat));
-
-        System.out.println(minutes);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

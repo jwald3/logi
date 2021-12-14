@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -22,6 +23,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class AddTripController implements Initializable {
@@ -62,17 +64,30 @@ public class AddTripController implements Initializable {
         insertRecord();
     }
 
+    @FXML
+    private void viewTrips() throws IOException {
+        Stage stage = (Stage) rootID.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trips.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
     private void insertRecord() {
 
-        if (truckChoiceBox.getValue()!= null
-                && !originFacilityChoiceBox.getValue().isEmpty()
-                && !destinationFacilityChoiceBox.getValue().isEmpty()
+        if (truckChoiceBox.getValue() != null
+                && originFacilityChoiceBox.getValue() != null
+                && destinationFacilityChoiceBox.getValue() != null
                 && startDateDatePicker.getValue() != null
                 && endDateDatePicker.getValue() != null
-
+                && !startTimeTextField.getText().isEmpty()
+                && !endTimeTextField.getText().isEmpty()
+                && !originFacilityChoiceBox.getValue().equals(destinationFacilityChoiceBox.getValue())
         ) {
             if (startTimeTextField.getText().matches("^(?:\\d|[01]\\d|2[0-3]):[0-5]\\d$") &&
-            endTimeTextField.getText().matches("^(?:\\d|[01]\\d|2[0-3]):[0-5]\\d$")) {
+                    endTimeTextField.getText().matches("^(?:\\d|[01]\\d|2[0-3]):[0-5]\\d$")) {
 
                 LocalTime startLocalTime = LocalTime.parse(startTimeTextField.getText());
                 LocalDateTime startLocalDateTime = LocalDateTime.of(startDateDatePicker.getValue(), startLocalTime);
@@ -90,25 +105,64 @@ public class AddTripController implements Initializable {
                     );
 
                     tripConnector.insertRecord(trip);
-                    truckChoiceBox.setValue("");
-                    originFacilityChoiceBox.setValue("");
-                    destinationFacilityChoiceBox.setValue("");
-                    startDateDatePicker.setValue(LocalDate.now());
-                    endDateDatePicker.setValue(LocalDate.now());
-                    startTimeTextField.setText("");
-                    endTimeTextField.setText("");
+
+                    resetValues();
                 }
+            } else {
+                generateError();
             }
+        } else {
+            generateError();
         }
     }
 
-    @FXML
-    private void viewTrips() throws IOException {
-        Stage stage = (Stage) rootID.getScene().getWindow();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trips.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    private void generateError() {
+        ArrayList<String> issues = new ArrayList<>();
+
+        if (truckChoiceBox.getValue() == null) { issues.add("No truck was selected"); }
+        if (originFacilityChoiceBox.getValue() == null) { issues.add("No origin facility was selected"); }
+        if (destinationFacilityChoiceBox.getValue() == null) { issues.add("No destination facility was selected"); }
+        if (startDateDatePicker.getValue()==null) { issues.add("No starting date was selected"); }
+
+        if (startTimeTextField.getText().isEmpty()) {
+            issues.add("No starting time was provided");
+        } else if (!startTimeTextField.getText().matches("^(?:\\d|[01]\\d|2[0-3]):[0-5]\\d$")) {
+            issues.add("Please ensure start time matches HH:MM format");
+        }
+
+        if (endDateDatePicker.getValue()==null) {
+            issues.add("No ending date was selected");
+        }
+
+        if (endTimeTextField.getText().isEmpty()) {
+            issues.add("No ending time was provided");
+        } else if (!endTimeTextField.getText().matches("^(?:\\d|[01]\\d|2[0-3]):[0-5]\\d$")) {
+            issues.add("Please ensure end time matches HH:MM format");
+        }
+
+        if (originFacilityChoiceBox.getValue().equals(destinationFacilityChoiceBox.getValue())) {
+            issues.add("Destination facility needs to be different from origin facility");
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String string: issues) {
+            stringBuilder.append(string).append("\n");
+        }
+
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setHeaderText("Input not valid");
+        errorAlert.setContentText(stringBuilder.toString());
+        errorAlert.showAndWait();
+    }
+
+    private void resetValues() {
+        truckChoiceBox.setValue("");
+        originFacilityChoiceBox.setValue("");
+        destinationFacilityChoiceBox.setValue("");
+        startDateDatePicker.setValue(LocalDate.now());
+        endDateDatePicker.setValue(LocalDate.now());
+        startTimeTextField.setText("");
+        endTimeTextField.setText("");
     }
 }

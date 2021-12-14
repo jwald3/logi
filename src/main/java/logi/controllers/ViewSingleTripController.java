@@ -51,6 +51,7 @@ public class ViewSingleTripController implements Initializable {
         tripConnector = new TripConnector();
         truckConnector = new TruckConnector();
         facilityConnector = new FacilityConnector();
+        System.out.println(tripID);
 
         for (Truck truck: truckConnector.getRecords()) {
             truckChoiceBox.getItems().add(String.valueOf(truck));
@@ -87,7 +88,8 @@ public class ViewSingleTripController implements Initializable {
                 new Facility(originFacilityChoiceBox.getValue(), ""),
                 new Facility(destinationFacilityChoiceBox.getValue(), ""),
                 startLocalDateTime,
-                endLocalDateTime);
+                endLocalDateTime,
+                tripID);
 
         tripConnector.updateRecord(trip, String.valueOf(tripID));
         viewTrips();
@@ -97,7 +99,7 @@ public class ViewSingleTripController implements Initializable {
     private void clickDelete() throws IOException {
         String query = "DELETE FROM trips WHERE tripID = " + tripID + ";";
         executeQuery(query);
-        viewTrips();
+        viewAllTrips();
     }
 
     @FXML
@@ -137,9 +139,17 @@ public class ViewSingleTripController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-
     }
 
+    @FXML
+    private void viewAllTrips() throws IOException {
+        Stage stage = (Stage) viewSingleTripRootID.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trips.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     public void setTripID(int id) {
         tripID = id;
@@ -158,12 +168,10 @@ public class ViewSingleTripController implements Initializable {
     }
 
     public void setStartDateInput(LocalDate localDate) {
-
         startDateInput.setValue(localDate);
     }
 
     public void setEndDateInput(LocalDate localDate) {
-
         endDateInput.setValue(localDate);
     }
 

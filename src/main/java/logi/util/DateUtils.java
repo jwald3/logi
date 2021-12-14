@@ -28,9 +28,9 @@ public class DateUtils {
         }
 
         if (minutes > 1) {
-            stringBuilder.append(minutes).append(" minutes, ");
+            stringBuilder.append(minutes).append(" minutes ");
         } else if (minutes == 1) {
-            stringBuilder.append(minutes).append(" minutes, ");
+            stringBuilder.append(minutes).append(" minute ");
         }
 
         return  stringBuilder.toString().trim().replaceAll(",$", "");

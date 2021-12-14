@@ -59,6 +59,17 @@ public class ViewSingleTruckController implements Initializable {
         stage.show();
     }
 
+
+    @FXML
+    private void viewAllTrucks() throws IOException {
+        Stage stage = (Stage) viewSingleTruckRootID.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-trucks.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     public void updateRecord() throws IOException {
         Truck truck = new Truck(truckIdTextField.getText(),
                 Integer.parseInt(capacityTextField.getText()));
@@ -82,7 +93,7 @@ public class ViewSingleTruckController implements Initializable {
     private void clickDelete() throws IOException {
         String query = "DELETE FROM trucks WHERE truckID = '" + originalTruckID + "';";
         executeQuery(query);
-        viewTrucks();
+        viewAllTrucks();
     }
 
 }

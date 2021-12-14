@@ -5,11 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import logi.models.Facility;
+import logi.models.State;
 import logi.util.FacilityConnector;
+import logi.util.StateConnector;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,6 +24,9 @@ public class ViewSingleFacilityController implements Initializable {
     public BorderPane viewSingleFacilityRootID;
     public TextField facilityNameTextField;
     public TextField facilityAddressTextField;
+    public ComboBox<String> facilityStateChoiceBox;
+    public TextField facilityCityTextField;
+    public TextField zipCodeTextField;
 
     private String originalFacilityName;
 
@@ -29,6 +35,11 @@ public class ViewSingleFacilityController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         facilityConnector = new FacilityConnector();
+        StateConnector stateConnector = new StateConnector();
+
+        for (State state: stateConnector.getRecords()) {
+            facilityStateChoiceBox.getItems().add(state.getStateAbbrev());
+        }
     }
 
     public void setFacilityNameTextField(Facility facility) {
@@ -37,12 +48,27 @@ public class ViewSingleFacilityController implements Initializable {
     }
 
     public void setFacilityAddressTextField(Facility facility) {
-        facilityAddressTextField.setText(facility.getAddress());
+        String[] addressParts = facility.getAddress().split(", ");
+        String address = addressParts[0];
+        String city = addressParts[1];
+        String stateAndZip = addressParts[2];
+
+        String state = stateAndZip.split(" ")[1];
+        String zip = stateAndZip.split(" ")[2];
+
+        facilityAddressTextField.setText(address);
+        facilityCityTextField.setText(city);
+        facilityStateChoiceBox.setValue(state);
+        zipCodeTextField.setText(zip);
     }
 
     @FXML
     private void viewFacilities() throws IOException {
-        Facility newFacility = new Facility(facilityNameTextField.getText(), facilityAddressTextField.getText());
+        String address = facilityAddressTextField.getText() + ", " +
+                facilityCityTextField.getText() + ", " + facilityStateChoiceBox.getValue() +
+                " " + zipCodeTextField.getText();
+
+        Facility newFacility = new Facility(facilityNameTextField.getText(), address);
 
         Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/facility-info.fxml"));
@@ -59,8 +85,22 @@ public class ViewSingleFacilityController implements Initializable {
     }
 
     @FXML
+    private void viewAllFacilities() throws IOException {
+        Stage stage = (Stage) viewSingleFacilityRootID.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/logi/view-facilities.fxml"));
+        Parent root = loader.load();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
     public void updateRecord() throws IOException {
-        Facility facility = new Facility(facilityNameTextField.getText(), facilityAddressTextField.getText());
+        String address = facilityAddressTextField.getText() + ", " +
+                facilityCityTextField.getText() + ", " + facilityStateChoiceBox.getValue() +
+                " " + zipCodeTextField.getText();
+
+        Facility facility = new Facility(facilityNameTextField.getText(), address);
 
         facilityConnector.updateRecord(facility, originalFacilityName);
         viewFacilities();
@@ -70,7 +110,7 @@ public class ViewSingleFacilityController implements Initializable {
     private void clickDelete() throws IOException {
         String query = "DELETE FROM facilities WHERE facilityName ='" + originalFacilityName + "';";
         executeQuery(query);
-        viewFacilities();
+        viewAllFacilities();
     }
 
     private void executeQuery(String query) {

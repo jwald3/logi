@@ -37,10 +37,8 @@ public class ViewTripController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         tripConnector = new TripConnector();
         showTrips();
-
     }
 
     @FXML
@@ -65,7 +63,6 @@ public class ViewTripController implements Initializable {
 
         tvTrips.setItems(list);
     }
-
 
     @FXML
     private void clickDelete() {

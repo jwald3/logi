@@ -36,8 +36,6 @@ public class TruckInfoController implements Initializable {
     public Label truckIdLabelText;
     public Label truckCapacityLabelText;
 
-
-
     private TruckConnector truckConnector;
 
     public String originalTruckID;

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -13,6 +14,7 @@ import logi.util.TruckConnector;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -38,12 +40,13 @@ public class AddTruckController implements Initializable {
                         Integer.parseInt(capacityTextField.getText()));
 
                 truckConnector.insertRecord(truck);
-                trailerIdTextField.setText("");
-                capacityTextField.setText("");
+                resetValues();
+
             } catch (NumberFormatException ignored) {
 
             }
-
+        } else {
+            generateError();
         }
     }
 
@@ -55,5 +58,29 @@ public class AddTruckController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void generateError() {
+        ArrayList<String> issues = new ArrayList<>();
+
+        if (trailerIdTextField.getText().isEmpty()) { issues.add("Truck ID was not provided"); }
+        if (capacityTextField.getText().isEmpty()) { issues.add("Truck capacity was not provided"); }
+
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (String string: issues) {
+            stringBuilder.append(string).append("\n");
+        }
+
+        Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+        errorAlert.setHeaderText("Input not valid");
+        errorAlert.setContentText(stringBuilder.toString());
+        errorAlert.showAndWait();
+    }
+
+    private void resetValues() {
+        trailerIdTextField.setText("");
+        capacityTextField.setText("");
     }
 }
