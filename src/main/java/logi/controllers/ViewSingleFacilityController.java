@@ -53,8 +53,8 @@ public class ViewSingleFacilityController implements Initializable {
         String city = addressParts[1];
         String stateAndZip = addressParts[2];
 
-        String state = stateAndZip.split(" ")[1];
-        String zip = stateAndZip.split(" ")[2];
+        String state = stateAndZip.split(" ")[0];
+        String zip = stateAndZip.split(" ")[1];
 
         facilityAddressTextField.setText(address);
         facilityCityTextField.setText(city);
